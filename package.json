@@ -1,0 +1,30 @@
+{
+    "name": "odata-mongodb-seed",
+    "description": "Seed project for odata-mongodb server",
+    "version": "0.0.1",
+    "author": "Mihai STOIE <mihaistoie@gmail.com>",
+    "license": "MIT",
+    "dependencies": {
+        "express": "latest",
+        "body-parser": "latest",
+        "phoenix-json-schema-tools": "git+https://git@github.com/salviadev/phoenix-json-schema-tools.git"
+    },
+    "devDependencies": {
+        "del": "latest",
+        "gulp-sourcemaps": "latest",
+        "gulp-typescript": "latest",
+        "merge2": "latest",
+        "mocha": "latest",
+        "typings": "latest",
+        "gulp": "latest",
+        "typescript": "next"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/salviadev/odata-mongodb-seed.git"
+    },
+    "main": "./server.js",
+    "scripts": {
+        "test": "node_modules/.bin/mocha  test/**/*.test.js"
+    }
+}
