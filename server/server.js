@@ -1,15 +1,18 @@
 "use strict";
 var express = require("express");
-//import * as routes from "./routes/index";
-var app = express();
-// Configuration
-app.use(express.static(__dirname + '/public'));
+var index_1 = require("./routes/index");
 function start(config) {
+    var app = express();
+    // Configuration
+    //static files
+    app.use(express.static(__dirname + '/public'));
+    //routes
+    index_1.routes(app, config);
     config = config || {};
     config.http = config.http || {};
-    config.http.port = config.http.port || 3000;
+    config.http.port = config.http.port || process.env.PORT || 3000;
     app.listen(config.http.port, function () {
-        console.log("Server listening on port %d in %s mode", config.http.port, app.settings.env);
+        console.log("Odata server started at port %d", config.http.port);
     });
 }
 exports.start = start;
