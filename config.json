@@ -3,6 +3,10 @@
         "port": 3000
     },
     "odata": {
-        
+        "repository": {},
+        "storage": "disk",
+        "options": {
+            "path": "./"
+        }
     }
 }
