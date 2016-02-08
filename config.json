@@ -3,10 +3,24 @@
         "port": 3000
     },
     "odata": {
-        "repository": {},
-        "storage": "disk",
-        "options": {
-            "path": "./"
+        "metadata": {
+            "storage": "disk",
+            "path": "./configuration"
+        },
+        "applications": {
+            "sms": {
+                "database": {
+                    "type": "mongodb",
+                    "connect": {
+                        "port": 45882,
+                        "host": "ds045882.mongolab.com",
+                        "database": "salvia",
+                        "user": "salvia",
+                        "password": "salvia"
+                    }
+                },
+                "multiTenant": true
+            }
         }
     }
 }

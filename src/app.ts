@@ -8,5 +8,6 @@ import {json}  from 'phoenix-utils';
 json.loadFromFile(path.join(__dirname, 'config.json')).then(function(config) {
     server.start(config);
 }).catch(function(ex) {
+    console.log(ex);
     throw ex;
 });

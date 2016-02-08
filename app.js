@@ -6,5 +6,6 @@ var phoenix_utils_1 = require('phoenix-utils');
 phoenix_utils_1.json.loadFromFile(path.join(__dirname, 'config.json')).then(function (config) {
     server.start(config);
 }).catch(function (ex) {
+    console.log(ex);
     throw ex;
 });

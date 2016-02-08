@@ -1,5 +1,5 @@
+"use strict";
 function _extractEntityIdValue(entityId) {
-    let eid = entityId;
     if (entityId === '') {
         throw "entityId empty.";
     }
@@ -50,7 +50,7 @@ function _parseEntityId(oUri) {
         oUri.entity = oUri.entity.substring(0, ii);
     }
 }
-function parseOdateUri(url, method) {
+function parseOdataUri(url, method) {
     const invalidUrl = 'Invalid odata url, excepted: "/odata/{application}/{entity}"', tenantIdMissing = 'Invalid odata url, the "tenantId" is missing.';
     let root = '/odata/';
     let res = {
@@ -102,7 +102,7 @@ function parseOdateUri(url, method) {
     }
     return res;
 }
-exports.parseOdateUri = parseOdateUri;
+exports.parseOdataUri = parseOdataUri;
 /*
 
   if (!res.entityId && res.query && res.query.$aggregation) {

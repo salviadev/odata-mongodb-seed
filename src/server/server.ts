@@ -2,17 +2,22 @@
 
 import * as express from "express";
 import {routes} from "./routes/index";
+import {applicationManager} from "./configuration/index";
 
 
 export function start(config: any): void {
+    
     var app = express();
-
-    // Configuration
-    //static files
+    // load Application Manager
+    let appManager = applicationManager(config);
+  
+    // Static files
     app.use(express.static(__dirname + '/public'));
-    //routes
-    routes(app, config);
+    
+    // Define http routes
+    routes(app, config, null);
 
+    // Start Odata server
     config = config || {};
     config.http = config.http || {};
     config.http.port = config.http.port || process.env.PORT || 3000;
