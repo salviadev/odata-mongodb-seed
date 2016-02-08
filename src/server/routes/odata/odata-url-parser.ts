@@ -42,8 +42,8 @@ function _checkEntityId(oUri: OdataParsedUri): void {
                     if (index || pkItems.length > 1)
                         throw "Invalid entityId."
                 } else {
-                   let v = _extractEntityIdValue(m[1]);
-                   pkMap[m[0].trim()] = v.value;
+                    let v = _extractEntityIdValue(m[1]);
+                    pkMap[m[0].trim()] = v.value;
                 }
             });
             oUri.entityId = pkMap;
@@ -68,7 +68,7 @@ function _parseEntityId(oUri: OdataParsedUri): void {
 }
 
 
-export function parseOdateUri(url: string, method: string): OdataParsedUri {
+export function parseOdataUri(url: string, method: string): OdataParsedUri {
     const
         invalidUrl = 'Invalid odata url, excepted: "/odata/{application}/{entity}"',
         tenantIdMissing = 'Invalid odata url, the "tenantId" is missing.';
