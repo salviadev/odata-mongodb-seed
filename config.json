@@ -3,13 +3,9 @@
         "port": 3000
     },
     "odata": {
-        "metadata": {
-            "storage": "disk",
-            "path": "./configuration"
-        },
         "applications": {
             "sms": {
-                "database": {
+                "storage": {
                     "type": "mongodb",
                     "connect": {
                         "port": 45882,
@@ -18,8 +14,7 @@
                         "user": "salvia",
                         "password": "salvia"
                     }
-                },
-                "multiTenant": true
+                }
             }
         }
     }

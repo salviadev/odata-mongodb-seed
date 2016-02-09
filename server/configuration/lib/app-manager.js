@@ -20,6 +20,9 @@ class ApplicationManager {
             that._applications[appName] = new model_manager_1.ModelManager(appName, that._config.applications[appName]);
         });
     }
+    application(applicationName) {
+        return (this._applications[applicationName]);
+    }
     applications() {
         let that = this;
         let res = [];

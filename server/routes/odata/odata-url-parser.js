@@ -51,24 +51,25 @@ function _parseEntityId(oUri) {
     }
 }
 function parseOdataUri(url, method) {
-    const invalidUrl = 'Invalid odata url, excepted: "/odata/{application}/{entity}"', invalidUrlAppMissing = 'Invalid odata url, application is missing.', invalidUrlAppEntity = 'Invalid odata url, entity is missing.', tenantIdMissing = 'Invalid odata url, the "tenantId" is missing.';
+    const invalidUrl = 'Invalid odata url, excepted: "/odata/{application}/{entity}"', invalidUrlAppMissing = 'Invalid odata url, application is missing.', invalidUrlAppEntity = 'Invalid odata url, entity is missing.';
     let root = '/odata/';
     let res = {
         method: method,
         query: {}
     };
-    let i = url.indexOf('?');
-    if (i < 0) {
-        res.error = { message: tenantIdMissing, status: 400 };
-        return res;
+    let query, i = url.indexOf('?');
+    if (i > 0) {
+        query = url.substring(i + 1);
+        url = url.substr(0, i);
+        query.split('&').forEach(function (value) {
+            var a = value.split('=');
+            if (a.length === 2)
+                res.query[a[0]] = decodeURIComponent(a[1]);
+        });
     }
-    let query = url.substring(i + 1);
-    url = url.substr(0, i);
-    query.split('&').forEach(function (value) {
-        var a = value.split('=');
-        if (a.length === 2)
-            res.query[a[0]] = decodeURIComponent(a[1]);
-    });
+    else {
+        query = {};
+    }
     i = url.indexOf(root);
     if (i < 0) {
         res.error = { message: invalidUrl, status: 400 };
@@ -77,7 +78,7 @@ function parseOdataUri(url, method) {
     let s = url.substring(i + root.length) || '';
     let segments = s.split('/');
     res.application = segments.shift() || '';
-    if (res.application.indexOf('application') === 0) {
+    if (res.application.indexOf('$applications') === 0) {
         // list applications
         res.entity = res.application;
         res.application = '*';

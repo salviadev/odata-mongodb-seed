@@ -13,7 +13,6 @@ function _modelList(folderName: string): Promise<string[]> {
                 items.forEach((value: string) => {
                     if (value.endsWith('.js'))
                         res.push(path.join(folderName, value));
-
                 });
                 resolve(res);
             }
@@ -24,11 +23,11 @@ function _modelList(folderName: string): Promise<string[]> {
 export function loadModel(folderName: string): Promise<any> {
     return new Promise<any>((resolve, reject) => {
         _modelList(folderName).then(function(files: string[]) {
-            let res = {};
+            let res = { entities: {} };
             try {
                 files.forEach(function(file) {
                     let model = require(file).model;
-                    res[model.schema.name] = model;
+                    res.entities[model.schema.name] = model;
                 });
                 resolve(res);
             } catch (ex) {

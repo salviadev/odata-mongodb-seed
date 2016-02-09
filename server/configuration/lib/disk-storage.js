@@ -20,11 +20,11 @@ function _modelList(folderName) {
 function loadModel(folderName) {
     return new Promise((resolve, reject) => {
         _modelList(folderName).then(function (files) {
-            let res = {};
+            let res = { entities: {} };
             try {
                 files.forEach(function (file) {
                     let model = require(file).model;
-                    res[model.schema.name] = model;
+                    res.entities[model.schema.name] = model;
                 });
                 resolve(res);
             }

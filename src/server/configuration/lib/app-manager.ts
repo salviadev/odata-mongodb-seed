@@ -21,6 +21,10 @@ export class ApplicationManager {
             that._applications[appName] = new ModelManager(appName, that._config.applications[appName]);
         });
     }
+    public application(applicationName : string): ModelManager{
+        return <ModelManager>(this._applications[applicationName]);
+    }
+    
     public applications(): any[] {
         let that = this;
         let res = [];

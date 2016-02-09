@@ -22,7 +22,7 @@ exports.model = {
                 "type": "string"
             },
             "fpparlogt": {
-                "type": "decimal"
+                "type": "number"
             },
             "maitreoeuvre": {
                 "type": "string"
