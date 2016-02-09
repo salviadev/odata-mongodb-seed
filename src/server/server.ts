@@ -2,14 +2,9 @@
 
 import * as express from "express";
 import {routes} from "./routes/index";
-import {applicationManager} from "./configuration/index";
-
 
 export function start(config: any): void {
-    
     var app = express();
-    // load Application Manager
-    let appManager = applicationManager(config);
   
     // Static files
     app.use(express.static(__dirname + '/public'));

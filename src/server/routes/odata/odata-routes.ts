@@ -2,9 +2,10 @@
 
 import * as  path  from 'path';
 import * as  express  from 'express';
-import {http}  from 'phoenix-utils';
+import {http, odata}  from 'phoenix-utils';
 
 import {parseOdataUri}  from './odata-url-parser';
+import {applicationManager}  from '../../configuration/index';
 
 
 
@@ -18,8 +19,7 @@ export function odataRoutes(app: express.Express, config, authHandler): void {
         }
         // Execute odata get
         if (odataUri.application === '*') {
-            // list all application
-            http.noi(res, 'List of applications: not implemented');
+            res.status(200).json(odata.queryResult(applicationManager().applications()));
         } else if (!odataUri.entity) {
             // list entities
             http.noi(res, 'List of entities: not implemented');

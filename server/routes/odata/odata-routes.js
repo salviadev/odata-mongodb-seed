@@ -1,6 +1,7 @@
 "use strict";
 var phoenix_utils_1 = require('phoenix-utils');
 var odata_url_parser_1 = require('./odata-url-parser');
+var index_1 = require('../../configuration/index');
 function odataRoutes(app, config, authHandler) {
     app.get('/odata/*', function (req, res, next) {
         // Parse url 
@@ -11,8 +12,7 @@ function odataRoutes(app, config, authHandler) {
         }
         // Execute odata get
         if (odataUri.application === '*') {
-            // list all application
-            phoenix_utils_1.http.noi(res, 'List of applications: not implemented');
+            res.status(200).json(phoenix_utils_1.odata.queryResult(index_1.applicationManager().applications()));
         }
         else if (!odataUri.entity) {
             // list entities

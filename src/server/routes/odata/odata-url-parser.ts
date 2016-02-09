@@ -71,7 +71,10 @@ function _parseEntityId(oUri: OdataParsedUri): void {
 export function parseOdataUri(url: string, method: string): OdataParsedUri {
     const
         invalidUrl = 'Invalid odata url, excepted: "/odata/{application}/{entity}"',
+        invalidUrlAppMissing = 'Invalid odata url, application is missing.',
+        invalidUrlAppEntity = 'Invalid odata url, entity is missing.',
         tenantIdMissing = 'Invalid odata url, the "tenantId" is missing.';
+
     let root = '/odata/';
     let res: any = {
         method: method,
@@ -96,20 +99,27 @@ export function parseOdataUri(url: string, method: string): OdataParsedUri {
         return res;
 
     }
-    let s = url.substring(i + root.length);
-    if (s === '') {
-        // list applications
-        res.application = '*';
-        return res;
-    }
+    let s = url.substring(i + root.length) || '';
     let segments = s.split('/');
-    res.application = segments.shift();
-    res.entity = segments.shift();
-
+   
+    res.application = segments.shift() || '';
+    if (res.application.indexOf('application') === 0) {
+        // list applications
+        res.entity = res.application;
+        res.application = '*';
+        
+    } else {
+        if (!res.application) {
+            res.error = { message: invalidUrlAppMissing, status: 400 };
+            return res;
+        }
+        res.entity = segments.shift() || '';
+    }
     if (!res.entity) {
-        // list entities
+        res.error = { message: invalidUrlAppEntity, status: 400 };
         return res;
     }
+
     if (!segments.length) {
         _parseEntityId(res);
         return res;

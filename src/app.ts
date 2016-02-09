@@ -4,9 +4,17 @@
 import * as path from 'path';
 import * as server  from './server/server';
 import {json}  from 'phoenix-utils';
+import {applicationManager} from "./server/configuration/index";
 
 json.loadFromFile(path.join(__dirname, 'config.json')).then(function(config) {
-    server.start(config);
+    let appManager = applicationManager(config);
+
+    appManager.loadModel(path.join(__dirname, 'server', 'model')).then(function() {
+        server.start(config);
+    }).catch(function(ex) {
+        console.log(ex);
+        throw ex;
+    });
 }).catch(function(ex) {
     console.log(ex);
     throw ex;

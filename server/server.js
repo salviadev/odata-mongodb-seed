@@ -1,11 +1,8 @@
 "use strict";
 var express = require("express");
 var index_1 = require("./routes/index");
-var index_2 = require("./configuration/index");
 function start(config) {
     var app = express();
-    // load Application Manager
-    let appManager = index_2.applicationManager(config);
     // Static files
     app.use(express.static(__dirname + '/public'));
     // Define http routes

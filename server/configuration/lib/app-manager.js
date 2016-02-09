@@ -1,8 +1,10 @@
 "use strict";
+var path = require('path');
+var phoenix_utils_1 = require('phoenix-utils');
 var model_manager_1 = require('./model-manager');
 class ApplicationManager {
     constructor(config) {
-        this._config = config;
+        this._config = config.odata;
         this._load();
     }
     _load() {
@@ -17,6 +19,28 @@ class ApplicationManager {
         Object.keys(that._config.applications).forEach(function (appName) {
             that._applications[appName] = new model_manager_1.ModelManager(appName, that._config.applications[appName]);
         });
+    }
+    applications() {
+        let that = this;
+        let res = [];
+        if (that._applications) {
+            Object.keys(that._applications).forEach(function (appName) {
+                let app = phoenix_utils_1.utils.clone(that._applications[appName].settings, true);
+                app.applicationName = appName;
+                res.push(app);
+            });
+        }
+        return res;
+    }
+    loadModel(folderName) {
+        let that = this;
+        let promises = [];
+        Object.keys(that._applications).forEach(function (appName) {
+            let appRoot = path.join(folderName, appName);
+            let model = that._applications[appName];
+            promises.push(model.load(appRoot));
+        });
+        return Promise.all(promises);
     }
 }
 exports.ApplicationManager = ApplicationManager;
