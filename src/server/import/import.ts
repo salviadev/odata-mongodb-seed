@@ -1,36 +1,95 @@
 "use strict";
 
-/// <reference path="../node_modules/phoenix-utils/lib/definitions/phoenix-utils.d.ts" />
-"use strict";
-
 import * as path from 'path';
+import * as fs from 'fs';
 import * as util from 'util';
-import {json}  from 'phoenix-utils';
+import * as mongodb from 'mongodb';
+import * as pmongo from 'phoenix-mongodb';
+import * as putils from 'phoenix-utils';
 import {applicationManager} from "../configuration/index";
 
 
+
+function dataFiles(schemas: any[], dataPath: string): Promise<any[]> {
+    let promises = [];
+    for (let schema of schemas) {
+        let fn = path.join(dataPath, schema.name + '.json');
+        promises.push(putils.fs.stat(fn, false));
+    }
+    
+    return new Promise<any[]>((resolve, reject) => {
+        Promise.all(promises).then(function(files) {
+            let res = [];
+            files.forEach(function(stats: fs.Stats, index) {
+                if (stats && stats.isFile()) {
+                    res.push({ schema: schemas[index], fileName: path.join(dataPath, schemas[index].name + '.json') })
+                }
+            });
+            resolve(res);
+
+        }).catch(function(ex) {
+            reject(ex);
+        });
+    });
+
+}
+
+function importFiles(db:mongodb.Db, files: any[], options: any, tenantId?: number): Promise<any[]> {
+    let promises = [];
+    for (let file of files) {
+        promises.push(pmongo.schema.importCollectionFromFile(db, file.schema, file.fileName, options, tenantId));
+    }
+    
+    return Promise.all(promises);
+}
 
 
 
 async function initializeDatabase(): Promise<void> {
     if (process.argv.length !== 4) {
-        throw "Use node import applicatioName pathToData";
+        throw util.format('Use node %s applicatioName path_to_data', 'import');
     }
     let applicationName = process.argv[2];
-    let dataPath = process.argv[3];
+    let dataPath = path.join(process.cwd(), process.argv[3]);
+    let stats = await putils.fs.stat(dataPath, false);
+    if (stats === null) {
+        throw util.format('Data folder not found. "%s"', dataPath);
+    }
+    if (!stats.isDirectory()) {
+        throw util.format('"%s" is not a directory', dataPath);
+    }
     let pathToModel = path.join(__dirname, '..', '..', 'config.json');
-    let config = await json.loadFromFile(pathToModel);
+    let config = await putils.json.loadFromFile(pathToModel);
     let appManager = applicationManager(config);
     await appManager.loadModel(path.join(__dirname, '..', 'model'));
     let app = appManager.application(applicationName);
     if (!app)
-        throw util.format('Application not found: "%s". Check config.json file.', applicationName); 
+        throw util.format('Application not found: "%s". Check config.json file.', applicationName);
+    if (!app.settings.storage || !app.settings.storage.connect)
+        throw util.format('Invalid database config for "%s". Check config.json file.', applicationName);
+    let db = await pmongo.db.connect(pmongo.db.connectionString(app.settings.storage.connect));
+    try {
+        let schemas = app.schemas();
+        await pmongo.schema.createDatabase(db, schemas);
+        let files =  await dataFiles(schemas, dataPath);
+        await importFiles(db, files, 
+        {
+            insert: true, 
+            onImported: function(schema, lc) { 
+                console.log(util.format("%s - %d documents inserted.", schema.name, lc)); 
+            }
+        });
+        
+
+    } finally {
+        await pmongo.db.close(db);
+    }
     //let db = 
 }
 
 
 initializeDatabase().then(function() {
-   console.log("Success"); 
+    console.log("Success");
 }).catch(function(ex) {
     console.error(ex);
 });

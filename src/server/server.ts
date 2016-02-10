@@ -19,6 +19,8 @@ export function start(config: any): void {
     app.listen(config.http.port, function() {
         console.log("Odata server started at port %d", config.http.port);
     });
+    
+    
 
 }
 

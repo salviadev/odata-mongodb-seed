@@ -25,22 +25,28 @@ class ModelManager {
     }
     _loaded() {
         let that = this;
-        that.schemas = {};
+        that._schemas = {};
         Object.keys(that._model.entities).forEach(entityName => {
-            that.schemas[entityName] = phoenix_utils_1.utils.clone(that._model.entities[entityName].schema, true);
+            that._schemas[entityName] = phoenix_utils_1.utils.clone(that._model.entities[entityName].schema, true);
         });
     }
     entitySchema(entityName) {
-        return this.schemas[entityName];
+        return this._schemas[entityName];
     }
     entities() {
         let that = this;
         let res = [];
         Object.keys(that._model.entities).forEach(entityName => {
-            let schema = that.schemas[entityName];
+            let schema = that._schemas[entityName];
             res.push({ entityName: entityName, title: schema.title, multiTenant: schema.multiTenant === true });
         });
         return res;
+    }
+    schemas() {
+        let that = this;
+        return Object.keys(that._schemas).map(entityName => {
+            return that._schemas[entityName];
+        });
     }
 }
 exports.ModelManager = ModelManager;
