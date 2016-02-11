@@ -30,9 +30,7 @@ function get(model, odataUri, res) {
                     filter = tenantIdFilter;
             }
             let mfilter = podata.$filter2mongoFilter(filter);
-            console.log(odataUri.query);
             let moptions = podata.queryOptions(odataUri.query);
-            console.log(moptions);
             let docs = yield pmongo.odata.execQuery(pmongo.db.connectionString(model.settings.storage.connect), schema.name, schema, mfilter, moptions);
             if (docs) {
                 res.status(200).json(docs);

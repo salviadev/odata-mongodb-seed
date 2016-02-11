@@ -58,7 +58,6 @@ function parseOdataUri(url, method) {
         query: {}
     };
     let query, i = url.indexOf('?');
-    console.log('i = ' + i);
     if (i > 0) {
         query = url.substring(i + 1);
         url = url.substr(0, i);
@@ -68,7 +67,6 @@ function parseOdataUri(url, method) {
                 res.query[a[0]] = decodeURIComponent(a[1]);
         });
     }
-    console.log(res.query);
     i = url.indexOf(root);
     if (i < 0) {
         res.error = { message: invalidUrl, status: 400 };
