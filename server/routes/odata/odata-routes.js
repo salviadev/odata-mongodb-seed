@@ -1,6 +1,21 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, Promise, generator) {
+    return new Promise(function (resolve, reject) {
+        generator = generator.call(thisArg, _arguments);
+        function cast(value) { return value instanceof Promise && value.constructor === Promise ? value : new Promise(function (resolve) { resolve(value); }); }
+        function onfulfill(value) { try { step("next", value); } catch (e) { reject(e); } }
+        function onreject(value) { try { step("throw", value); } catch (e) { reject(e); } }
+        function step(verb, value) {
+            var result = generator[verb](value);
+            result.done ? resolve(result.value) : cast(result.value).then(onfulfill, onreject);
+        }
+        step("next", void 0);
+    });
+};
 var util = require('util');
 var phoenix_utils_1 = require('phoenix-utils');
+var podata = require('phoenix-odata');
+var odataget = require('./odata-get');
 var odata_url_parser_1 = require('./odata-url-parser');
 var index_1 = require('../../configuration/index');
 function odataRoutes(app, config, authHandler) {
@@ -14,7 +29,7 @@ function odataRoutes(app, config, authHandler) {
         // Execute odata get
         let appManager = index_1.applicationManager();
         if (odataUri.application === '*') {
-            res.status(200).json(phoenix_utils_1.odata.queryResult(appManager.applications()));
+            res.status(200).json(podata.queryResult(appManager.applications()));
         }
         else {
             let model = appManager.application(odataUri.application);
@@ -24,10 +39,10 @@ function odataRoutes(app, config, authHandler) {
             }
             if (odataUri.entity === "$entities") {
                 // list entities
-                res.status(200).json(phoenix_utils_1.odata.queryResult(model.entities()));
+                res.status(200).json(podata.queryResult(model.entities()));
             }
             else {
-                let schema = model.entitySchema[odataUri.entity];
+                let schema = model.entitySchema(odataUri.entity);
                 if (!schema) {
                     phoenix_utils_1.http.notfound(res, util.format('Entity not not found "%s/%s".', odataUri.application, odataUri.entity));
                     return;
@@ -36,18 +51,12 @@ function odataRoutes(app, config, authHandler) {
                     phoenix_utils_1.http.error(res, util.format('The tenantId is required for "%s/%s".', odataUri.application, odataUri.entity));
                     return;
                 }
-                phoenix_utils_1.http.error(res, util.format('Not implemented "%s/%s".', odataUri.application, odataUri.entity));
+                odataget.get(model, odataUri, res).then(function () {
+                }).catch(function (ex) {
+                    phoenix_utils_1.http.exception(res, ex);
+                });
             }
         }
-        /* odataExecutor(odataUrl, function(err, odataResult) {
-             if (err) {
-                 return res.status(err.status || 500).json({ message: err.message });
-             }
-             if (odataResult == null)
-                 odataResult = {};
-             res.status(odataResult.status || 200).json(odataResult);
-         });
-         */
     });
 }
 exports.odataRoutes = odataRoutes;

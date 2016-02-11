@@ -3,7 +3,9 @@
 import * as  path  from 'path';
 import * as  express  from 'express';
 import * as  util  from 'util';
-import {http, odata}  from 'phoenix-utils';
+import {http}  from 'phoenix-utils';
+import * as podata  from 'phoenix-odata';
+import * as odataget from './odata-get';
 
 import {parseOdataUri}  from './odata-url-parser';
 import {applicationManager}  from '../../configuration/index';
@@ -21,7 +23,7 @@ export function odataRoutes(app: express.Express, config, authHandler): void {
         // Execute odata get
         let appManager = applicationManager();
         if (odataUri.application === '*') {
-            res.status(200).json(odata.queryResult(appManager.applications()));
+            res.status(200).json(podata.queryResult(appManager.applications()));
         } else {
 
             let model = appManager.application(odataUri.application);
@@ -31,34 +33,27 @@ export function odataRoutes(app: express.Express, config, authHandler): void {
             }
             if (odataUri.entity === "$entities") {
                 // list entities
-                res.status(200).json(odata.queryResult(model.entities()));
+                res.status(200).json(podata.queryResult(model.entities()));
             } else {
-                let schema = model.entitySchema[odataUri.entity];
+                let schema = model.entitySchema(odataUri.entity);
                 if (!schema) {
                     http.notfound(res, util.format('Entity not not found "%s/%s".', odataUri.application, odataUri.entity));
                     return;
                 }
+               
 
                 if (schema.multiTenant && !odataUri.query.tenantId) {
                     http.error(res, util.format('The tenantId is required for "%s/%s".', odataUri.application, odataUri.entity));
                     return;
                 }
-                 http.error(res, util.format('Not implemented "%s/%s".', odataUri.application, odataUri.entity));
                 
+                odataget.get(model, odataUri, res).then(function() {
 
+                }).catch(function(ex) {
+                    http.exception(res, ex);
+                });
             }
         }
-
-
-        /* odataExecutor(odataUrl, function(err, odataResult) {
-             if (err) {
-                 return res.status(err.status || 500).json({ message: err.message });
-             }
-             if (odataResult == null)
-                 odataResult = {};
-             res.status(odataResult.status || 200).json(odataResult);
-         });
-         */
 
     });
 

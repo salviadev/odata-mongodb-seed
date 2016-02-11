@@ -16,7 +16,7 @@ function dataFiles(schemas: any[], dataPath: string): Promise<any[]> {
         let fn = path.join(dataPath, schema.name + '.json');
         promises.push(putils.fs.stat(fn, false));
     }
-    
+
     return new Promise<any[]>((resolve, reject) => {
         Promise.all(promises).then(function(files) {
             let res = [];
@@ -34,12 +34,12 @@ function dataFiles(schemas: any[], dataPath: string): Promise<any[]> {
 
 }
 
-function importFiles(db:mongodb.Db, files: any[], options: any, tenantId?: number): Promise<any[]> {
+function importFiles(connectionUri: string, files: any[], options: any, tenantId?: number): Promise<any[]> {
     let promises = [];
     for (let file of files) {
-        promises.push(pmongo.schema.importCollectionFromFile(db, file.schema, file.fileName, options, tenantId));
+        promises.push(pmongo.schema.importCollectionFromFile(connectionUri, file.schema, file.fileName, options, tenantId));
     }
-    
+
     return Promise.all(promises);
 }
 
@@ -67,24 +67,19 @@ async function initializeDatabase(): Promise<void> {
         throw util.format('Application not found: "%s". Check config.json file.', applicationName);
     if (!app.settings.storage || !app.settings.storage.connect)
         throw util.format('Invalid database config for "%s". Check config.json file.', applicationName);
-    let db = await pmongo.db.connect(pmongo.db.connectionString(app.settings.storage.connect));
-    try {
-        let schemas = app.schemas();
-        await pmongo.schema.createDatabase(db, schemas);
-        let files =  await dataFiles(schemas, dataPath);
-        await importFiles(db, files, 
+    let cs = pmongo.db.connectionString(app.settings.storage.connect);
+
+    let schemas = app.schemas();
+    await pmongo.schema.createCollections(cs, schemas);
+    let files = await dataFiles(schemas, dataPath);
+    await importFiles(cs, files,
         {
-            insert: true, 
-            onImported: function(schema, lc) { 
-                console.log(util.format("%s - %d documents inserted.", schema.name, lc)); 
+            insert: true,
+            onImported: function(schema, lc) {
+                console.log(util.format("%s - %d documents inserted.", schema.name, lc));
             }
         });
-        
 
-    } finally {
-        await pmongo.db.close(db);
-    }
-    //let db = 
 }
 
 

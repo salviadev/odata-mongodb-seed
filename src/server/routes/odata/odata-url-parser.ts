@@ -80,6 +80,7 @@ export function parseOdataUri(url: string, method: string): OdataParsedUri {
         query: {}
     };
     let query, i = url.indexOf('?');
+    
     if (i > 0) {
         query = url.substring(i + 1);
         url = url.substr(0, i);
@@ -89,9 +90,8 @@ export function parseOdataUri(url: string, method: string): OdataParsedUri {
                 res.query[a[0]] = decodeURIComponent(a[1]);
 
         });
-    } else {
-        query = {};
     }
+
     i = url.indexOf(root);
     if (i < 0) {
         res.error = { message: invalidUrl, status: 400 };

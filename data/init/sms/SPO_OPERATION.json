@@ -1,9 +1,5 @@
 [
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000079')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000079",
         "lbop": "0343-LA GREE DE LA RUE",
         "commune": "HERBIGNAC",
@@ -40,10 +36,6 @@
         "typeope": "01 Espace Domicile Construction Neuve"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000081')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000081",
         "lbop": "0352-LE MOULIN DE LA GALETTE",
         "commune": "HERBIGNAC",
@@ -81,10 +73,6 @@
         "anneeprog": "2013"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000082')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000082",
         "lbop": "0362-LES JARDINS DE LA MERCELLERIE",
         "commune": "SAINT-BREVIN LES PINS",
@@ -122,10 +110,6 @@
         "anneeprog": "2013"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000083')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000083",
         "lbop": "0348-LE DELPHIN",
         "commune": "PORNIC",
@@ -163,10 +147,6 @@
         "anneeprog": "2013"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000084')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000084",
         "lbop": "0344-LES MORENES",
         "commune": "SAINT-JOACHIM",
@@ -204,10 +184,6 @@
         "anneeprog": "2013"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000085')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000085",
         "lbop": "0339-CLOS DE FERLINE",
         "commune": "PIRIAC SUR MER",
@@ -249,10 +225,6 @@
         "anneeprog": "2013"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000086')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000086",
         "lbop": "0382-LA COQUELINE II",
         "commune": "SAINT-ANDRE-DES-EAUX",
@@ -291,10 +263,6 @@
         "anneeprog": "2013"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000087')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000087",
         "lbop": "0331-LE SAINT SEBASTIEN",
         "commune": "PORNICHET",
@@ -332,10 +300,6 @@
         "anneeprog": "2013"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000088')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000088",
         "lbop": "0369-LE COTRE",
         "commune": "LE POULIGUEN",
@@ -373,10 +337,6 @@
         "anneeprog": "2013"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000089')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000089",
         "lbop": "0375-LES EXPLORATEURS",
         "commune": "SAINT-MICHEL CHEF CHEF",
@@ -413,10 +373,6 @@
         "typeope": "01 Espace Domicile Construction Neuve"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000090')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000090",
         "lbop": "0347-LES FILETS",
         "commune": "LA PLAINE SUR MER",
@@ -453,10 +409,6 @@
         "typeope": "01 Espace Domicile Construction Neuve"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000091')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000091",
         "lbop": "0389-LES ROSIERS",
         "commune": "LA PLAINE SUR MER",
@@ -491,10 +443,6 @@
         "typeope": "02 Espace Domicile VEFA"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000092')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000092",
         "lbop": "0390-LES CLEMATITES",
         "commune": "LA PLAINE SUR MER",
@@ -523,10 +471,6 @@
         "typeope": "02 Espace Domicile VEFA"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000093')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000093",
         "lbop": "0359-LA CHALOUPE",
         "commune": "LA TURBALLE",
@@ -563,10 +507,6 @@
         "typeope": "01 Espace Domicile Construction Neuve"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000094')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000094",
         "lbop": "0386-LE GRAND CLOS",
         "commune": "SAINT-ANDRE-DES-EAUX",
@@ -596,10 +536,6 @@
         "typeope": "01 Espace Domicile Construction Neuve"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000095')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000095",
         "lbop": "0378-LE DOMAINE DE LA COTE SAUVAGE",
         "commune": "BATZ SUR MER",
@@ -629,10 +565,6 @@
         "typeope": "02 Espace Domicile VEFA"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000097')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000097",
         "lbop": "0314-LA CHANTERIE 1",
         "commune": "CHAUVE",
@@ -670,10 +602,6 @@
         "anneeprog": "2013"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000098')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000098",
         "lbop": "0367-KERVAUDU",
         "commune": "LE CROISIC",
@@ -711,10 +639,6 @@
         "anneeprog": "2014"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000099')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000099",
         "lbop": "0388-LE MISTRAL VEFA",
         "commune": "SAINT-NAZAIRE",
@@ -751,10 +675,6 @@
         "anneeprog": "2013"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000100')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000100",
         "lbop": "0387-KERLARY VEFA",
         "commune": "LA BAULE",
@@ -791,10 +711,6 @@
         "anneeprog": "2013"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000101')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000101",
         "lbop": "0360-CLOS DE LA COUR",
         "commune": "CORSEPT",
@@ -832,10 +748,6 @@
         "anneeprog": "2013"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000102')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000102",
         "lbop": "0355-LA CONCORDE",
         "commune": "LA TURBALLE",
@@ -872,10 +784,6 @@
         "typeope": "01 Espace Domicile Construction Neuve"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000103')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000103",
         "lbop": "0374-VILLA DES ARTS VEFA",
         "commune": "PORNICHET",
@@ -912,10 +820,6 @@
         "anneeprog": "2013"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000104')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000104",
         "lbop": "0385-LE MES",
         "commune": "SAINT MOLF",
@@ -946,10 +850,6 @@
         "anneeprog": "2014"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000105')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000105",
         "lbop": "0315-LE BEL AVENIR",
         "commune": "PORNIC",
@@ -986,10 +886,6 @@
         "anneeprog": "2014"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000107')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000107",
         "lbop": "0320-SOLARIS",
         "commune": "SAINT-NAZAIRE",
@@ -1027,10 +923,6 @@
         "anneeprog": "2011"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000111')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000111",
         "lbop": "0313-LA CITE DU CORMIER",
         "commune": "CAMPBON",
@@ -1068,10 +960,6 @@
         "anneeprog": "2013"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000112')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000112",
         "lbop": "0391-LA CRIQUE",
         "commune": "LE POULIGUEN",
@@ -1110,10 +998,6 @@
         "anneeprog": "2013"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000113')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000113",
         "lbop": "0377-LA FONTAINE SAINT JEAN",
         "commune": "MISSILLAC",
@@ -1151,10 +1035,6 @@
         "anneeprog": "2013"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000114')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000114",
         "lbop": "0380-LA CHANTERIE 2",
         "commune": "CHAUVE",
@@ -1192,10 +1072,6 @@
         "anneeprog": "2014"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000115')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000115",
         "lbop": "0381-CLOS DE FERLINE 2",
         "commune": "PIRIAC SUR MER",
@@ -1234,10 +1110,6 @@
         "anneeprog": "2014"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000120')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000120",
         "lbop": "0383-LA GAUDINAIS",
         "commune": "SAINT-ANDRE-DES-EAUX",
@@ -1276,10 +1148,6 @@
         "anneeprog": "2013"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000121')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000121",
         "lbop": "0394-LE PRE DU MATZ VEFA",
         "commune": "SAVENAY",
@@ -1315,10 +1183,6 @@
         "typeope": "02 Espace Domicile VEFA"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000124')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000124",
         "lbop": "0364-LE CLOS DE RETZ VEFA",
         "commune": "SAINTE-PAZANNE",
@@ -1354,10 +1218,6 @@
         "typeope": "02 Espace Domicile VEFA"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000126')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000126",
         "lbop": "0357-JARDINS D'OCEANIS VEFA",
         "commune": "SAINT-NAZAIRE",
@@ -1393,10 +1253,6 @@
         "typeope": "02 Espace Domicile VEFA"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000127')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000127",
         "lbop": "0396-LE PARC HOUGARD",
         "commune": "SAINT LYPHARD",
@@ -1432,10 +1288,6 @@
         "typeope": "02 Espace Domicile VEFA"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000134')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000134",
         "lbop": "0376-LES PALUDIERS",
         "commune": "PORNICHET",
@@ -1471,10 +1323,6 @@
         "typeope": "02 Espace Domicile VEFA"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000135')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000135",
         "lbop": "0398-LES MOUSSETTES",
         "commune": "LA BAULE",
@@ -1510,10 +1358,6 @@
         "typeope": "02 Espace Domicile VEFA"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000136')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000136",
         "lbop": "0365-LE DOMAINE DE GWENRANN",
         "commune": "GUÉRANDE",
@@ -1549,10 +1393,6 @@
         "typeope": "02 Espace Domicile VEFA"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000137')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000137",
         "lbop": "0366-LE HAMEAU DU VALLIOUX",
         "commune": "SAINT-NAZAIRE",
@@ -1588,10 +1428,6 @@
         "typeope": "02 Espace Domicile VEFA"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000140')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000140",
         "lbop": "0393-LES TERRASSES DE CERES VEFA",
         "commune": "LA BAULE",
@@ -1628,10 +1464,6 @@
         "anneeprog": "2013"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000141')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000141",
         "lbop": "0392-LES TERRASSES DE CERES ULS",
         "commune": "LA BAULE",
@@ -1667,10 +1499,6 @@
         "typeope": "02 Espace Domicile VEFA"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000144')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000144",
         "lbop": "0353-LE MONTECRISTO",
         "commune": "PORNICHET",
@@ -1706,10 +1534,6 @@
         "typeope": "02 Espace Domicile VEFA"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000145')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000145",
         "lbop": "0350-VOGUEO",
         "commune": "PORNICHET",
@@ -1745,10 +1569,6 @@
         "typeope": "02 Espace Domicile VEFA"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000148')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000148",
         "lbop": "0395-LE CLOS CLAIRE FONTAINE",
         "commune": "CAMPBON",
@@ -1784,10 +1604,6 @@
         "typeope": "02 Espace Domicile VEFA"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000149')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000149",
         "lbop": "0384-MAISON RELAIS MARIE CURIE",
         "commune": "TRIGNAC",
@@ -1825,10 +1641,6 @@
         "typeope": "01 Espace Domicile Construction Neuve"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000150')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000150",
         "lbop": "0397-LES REDONNEES 2 VEFA",
         "commune": "PORNICHET",
@@ -1864,10 +1676,6 @@
         "typeope": "02 Espace Domicile VEFA"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000151')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000151",
         "lbop": "0399-LE CLOS AZEAU",
         "commune": "SAINT-ANDRE-DES-EAUX",
@@ -1906,10 +1714,6 @@
         "typeope": "01 Espace Domicile Construction Neuve"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000152')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000152",
         "lbop": "0371-LES RENARDIERES",
         "commune": "SAINT-MICHEL CHEF CHEF",
@@ -1947,10 +1751,6 @@
         "typeope": "01 Espace Domicile Construction Neuve"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000154')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000154",
         "lbop": "0068-LE PRINCE BOIS I",
         "commune": "PLESSÉ",
@@ -1990,10 +1790,6 @@
         "anneeprog": "2014"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000156')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000156",
         "lbop": "0405-NOUVELLE VAGUE ULS",
         "commune": "LE POULIGUEN",
@@ -2029,10 +1825,6 @@
         "typeope": "02 Espace Domicile VEFA"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000157')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000157",
         "lbop": "0044-LE PARC AU RAY",
         "commune": "SAINT-ANDRE-DES-EAUX",
@@ -2068,10 +1860,6 @@
         "typeope": "04 Espace Domicile Réhabilitation Sans MOE"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000158')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000158",
         "lbop": "0099-ST CYR",
         "commune": "SAINT-HILAIRE DE CHALEONS",
@@ -2101,10 +1889,6 @@
         "anneeprog": "2014"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000160')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000160",
         "lbop": "0402-LE PETIT LANGUERNAIS",
         "commune": "SAINT MOLF",
@@ -2135,10 +1919,6 @@
         "anneeprog": "2014"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000161')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000161",
         "lbop": "0312-LA COUR BIZEUL",
         "commune": "BLAIN",
@@ -2168,10 +1948,6 @@
         "typeope": "01 Espace Domicile Construction Neuve"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000162')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000162",
         "lbop": "0403-DORNABAS",
         "commune": "LA TURBALLE",
@@ -2201,10 +1977,6 @@
         "typeope": "01 Espace Domicile Construction Neuve"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000163')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000163",
         "lbop": "0404-ECODOMAINE DES REDONNEES",
         "commune": "PORNICHET",
@@ -2242,10 +2014,6 @@
         "typeope": "01 Espace Domicile Construction Neuve"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000164')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000164",
         "lbop": "0407-LE CLOS VAILLANT",
         "commune": "LA CHAPELLE-DES-MARAIS",
@@ -2281,10 +2049,6 @@
         "typeope": "02 Espace Domicile VEFA"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000165')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000165",
         "lbop": "0401-BEAULIEU",
         "commune": "GUÉRANDE",
@@ -2320,10 +2084,6 @@
         "typeope": "02 Espace Domicile VEFA"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000166')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000166",
         "lbop": "0406-LE LATTAIS",
         "commune": "LA CHAPELLE LAUNAY",
@@ -2353,10 +2113,6 @@
         "typeope": "01 Espace Domicile Construction Neuve"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000167')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000167",
         "lbop": "0023-LE RELUISANT",
         "commune": "LA TURBALLE",
@@ -2385,10 +2141,6 @@
         "typeope": "04 Espace Domicile Réhabilitation Sans MOE"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000168')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000168",
         "lbop": "SL41114",
         "commune": "PIRIAC SUR MER",
@@ -2417,10 +2169,6 @@
         "typeope": "01 Espace Domicile Construction Neuve"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000169')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000169",
         "lbop": "test suppression action non obligatoire",
         "commune": "ARTHON EN RETZ",
@@ -2449,10 +2197,6 @@
         "typeope": "01 Espace Domicile Construction Neuve"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000170')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000170",
         "lbop": "TEST EV",
         "commune": "BATZ SUR MER",
@@ -2477,10 +2221,6 @@
         "typeope": "Ne pas utiliser Construction Neuve"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000171')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000171",
         "lbop": "test 2",
         "commune": "ARTHON EN RETZ",
@@ -2510,10 +2250,6 @@
         "anneeprog": "2014"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000172')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000172",
         "lbop": "op test 3",
         "commune": "ARTHON EN RETZ",
@@ -2543,10 +2279,6 @@
         "anneeprog": "2014"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000173')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000173",
         "lbop": "Les tsars -5",
         "commune": "ARTHON EN RETZ",
@@ -2586,10 +2318,6 @@
         "typeope": "01 Espace Domicile Construction Neuve"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000174')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000174",
         "lbop": "Opération Maeva",
         "commune": "ARTHON EN RETZ",
@@ -2620,10 +2348,6 @@
         "anneeprog": "2014"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000175')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000175",
         "lbop": "op 13.3",
         "commune": "ARTHON EN RETZ",
@@ -2658,10 +2382,6 @@
         "typeope": "02 Espace Domicile VEFA"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000176')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000176",
         "lbop": "test supp programme avec synchro",
         "commune": "ARTHON EN RETZ",
@@ -2691,10 +2411,6 @@
         "typeope": "01 Espace Domicile Construction Neuve"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000177')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000177",
         "lbop": "test rolec",
         "commune": "ARTHON EN RETZ",
@@ -2723,10 +2439,6 @@
         "typeope": "01 Espace Domicile Construction Neuve"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000178')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000178",
         "lbop": "test 3",
         "commune": "ARTHON EN RETZ",
@@ -2756,10 +2468,6 @@
         "typeope": "01 Espace Domicile Construction Neuve"
     },
     {
-        "__metadata": {
-            "uri": "https://www2.mgcloud.fr/dataserver/salvia/data/SPO_OPERATION('00000179')",
-            "type": "fr.mgdis.odata.data.SPO_OPERATIONType"
-        },
         "idop": "00000179",
         "lbop": "Pupaza",
         "commune": "ARTHON EN RETZ",

@@ -1,5 +1,6 @@
 /// <reference path="../node_modules/phoenix-utils/lib/definitions/phoenix-utils.d.ts" />
 /// <reference path="../node_modules/phoenix-mongodb/lib/definitions/phoenix-mongodb.d.ts" />
+/// <reference path="../node_modules/phoenix-odata/lib/definitions/phoenix-odata.d.ts" />
 "use strict";
 
 import * as path from 'path';

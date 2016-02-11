@@ -37,10 +37,10 @@ function dataFiles(schemas, dataPath) {
         });
     });
 }
-function importFiles(db, files, options, tenantId) {
+function importFiles(connectionUri, files, options, tenantId) {
     let promises = [];
     for (let file of files) {
-        promises.push(pmongo.schema.importCollectionFromFile(db, file.schema, file.fileName, options, tenantId));
+        promises.push(pmongo.schema.importCollectionFromFile(connectionUri, file.schema, file.fileName, options, tenantId));
     }
     return Promise.all(promises);
 }
@@ -67,22 +67,16 @@ function initializeDatabase() {
             throw util.format('Application not found: "%s". Check config.json file.', applicationName);
         if (!app.settings.storage || !app.settings.storage.connect)
             throw util.format('Invalid database config for "%s". Check config.json file.', applicationName);
-        let db = yield pmongo.db.connect(pmongo.db.connectionString(app.settings.storage.connect));
-        try {
-            let schemas = app.schemas();
-            yield pmongo.schema.createDatabase(db, schemas);
-            let files = yield dataFiles(schemas, dataPath);
-            yield importFiles(db, files, {
-                insert: true,
-                onImported: function (schema, lc) {
-                    console.log(util.format("%s - %d documents inserted.", schema.name, lc));
-                }
-            });
-        }
-        finally {
-            yield pmongo.db.close(db);
-        }
-        //let db = 
+        let cs = pmongo.db.connectionString(app.settings.storage.connect);
+        let schemas = app.schemas();
+        yield pmongo.schema.createCollections(cs, schemas);
+        let files = yield dataFiles(schemas, dataPath);
+        yield importFiles(cs, files, {
+            insert: true,
+            onImported: function (schema, lc) {
+                console.log(util.format("%s - %d documents inserted.", schema.name, lc));
+            }
+        });
     });
 }
 initializeDatabase().then(function () {

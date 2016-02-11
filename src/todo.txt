@@ -1,7 +1,8 @@
-1/ Initialize database
+1/ Initialize database --ok
 2/ Integrate odata requests (get)
 -------------------------------------
-
+1/ doc
+2/ Import database tenantId / mode update
 
 
 
