@@ -25,7 +25,7 @@ export async function get(model: ModelManager, odataUri: OdataParsedUri, res: ex
             else
                 filter = tenantIdFilter;
         }
-        let mfilter = podata.$filter2mongoFilter(filter);
+        let mfilter = podata.$filter2mongoFilter(filter, schema);
         let moptions = podata.queryOptions(odataUri.query);
         let docs = await pmongo.odata.execQuery(pmongo.db.connectionString(model.settings.storage.connect), schema.name, schema, mfilter, moptions);
         if (docs) {
