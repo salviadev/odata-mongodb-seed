@@ -6,15 +6,39 @@ import * as  util  from 'util';
 import {http}  from 'phoenix-utils';
 import *  as pmongo  from 'phoenix-mongodb';
 import * as podata from 'phoenix-odata';
+import * as pschema from 'phoenix-json-schema-tools';
 import {parseOdataUri, OdataParsedUri}  from './odata-url-parser';
 import {ApplicationManager, ModelManager}  from '../../configuration/index';
 
 
+function throwInvalidEntityId(): void {
+    throw new http.HttpError("Invalid entityId.", 400);
+}
 
+function entityId2MongoFilter(odataUri: OdataParsedUri, schema: any): any {
+    let res: any = {};
+    let pkFields = pschema.schema.pkFields(schema);
+    if (typeof odataUri.entityId === "string") {
+        if (pkFields.length !== 1)
+            throwInvalidEntityId();
+        res[pkFields[0]] = odataUri.entityId;
+    } else {
+        pkFields.forEach(pn => {
+            if (odataUri.entityId[pn] === undefined)
+                throwInvalidEntityId();
+            res[pn] = odataUri.entityId[pn];
+        });
+        
+    }
+    if (schema.multiTenant) {
+        res.tenantId = odataUri.query.tenantId;
+    }
+    return res;
+}
 
 export async function get(model: ModelManager, odataUri: OdataParsedUri, res: express.Response): Promise<void> {
     let schema = model.entitySchema(odataUri.entity);
-     
+
     if (!odataUri.entityId) {
         let filter = odataUri.query.$filter;
         // addtenant id
@@ -28,13 +52,13 @@ export async function get(model: ModelManager, odataUri: OdataParsedUri, res: ex
         let mfilter = podata.$filter2mongoFilter(filter, schema);
         let moptions = podata.queryOptions(odataUri.query);
         let docs = await pmongo.odata.execQuery(pmongo.db.connectionString(model.settings.storage.connect), schema.name, schema, mfilter, moptions);
-        if (docs) {
-            res.status(200).json(docs);
-        } else
-            http.noi(res, util.format('Not implemented "%s/%s".', odataUri.application, odataUri.entity));
+        res.status(200).json(docs);
 
-    } else
-        http.error(res, util.format('Not implemented "%s/%s".', odataUri.application, odataUri.entity));
+    } else {
+        let filterOne = entityId2MongoFilter(odataUri, schema);
+        let item = await pmongo.odata.execQueryId(pmongo.db.connectionString(model.settings.storage.connect), schema.name, schema, filterOne, {});
+        res.status(200).json(item);    
+    }
 }
 
 

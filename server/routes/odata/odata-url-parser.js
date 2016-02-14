@@ -1,12 +1,12 @@
 "use strict";
 function _extractEntityIdValue(entityId) {
     if (entityId === '') {
-        throw "entityId empty.";
+        throw "entityId is empty.";
     }
     if (entityId.charAt(0) === '\'') {
         if (entityId[entityId.length - 1] !== '\'')
             throw "EntityId: unterminated string.";
-        return { value: entityId.substring(1, entityId.length - 2), isString: true };
+        return { value: entityId.substring(1, entityId.length - 1), isString: true };
     }
     return { value: entityId, isString: false };
 }
@@ -18,7 +18,7 @@ function _checkEntityId(oUri) {
             return;
         }
         else {
-            let pkItems = oUri.entityId(',');
+            let pkItems = oUri.entityId.split(',');
             let pkMap = {};
             pkItems.forEach(function (segment, index) {
                 segment = segment.trim();
@@ -48,6 +48,7 @@ function _parseEntityId(oUri) {
         }
         oUri.entityId = oUri.entity.substring(ii + 1, oUri.entity.length - 1);
         oUri.entity = oUri.entity.substring(0, ii);
+        _checkEntityId(oUri);
     }
 }
 function parseOdataUri(url, method) {

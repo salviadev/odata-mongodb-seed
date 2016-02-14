@@ -16,6 +16,30 @@ var util = require('util');
 var phoenix_utils_1 = require('phoenix-utils');
 var pmongo = require('phoenix-mongodb');
 var podata = require('phoenix-odata');
+var pschema = require('phoenix-json-schema-tools');
+function throwInvalidEntityId() {
+    throw new phoenix_utils_1.http.HttpError("Invalid entityId.", 400);
+}
+function entityId2MongoFilter(odataUri, schema) {
+    let res = {};
+    let pkFields = pschema.schema.pkFields(schema);
+    if (typeof odataUri.entityId === "string") {
+        if (pkFields.length !== 1)
+            throwInvalidEntityId();
+        res[pkFields[0]] = odataUri.entityId;
+    }
+    else {
+        pkFields.forEach(pn => {
+            if (odataUri.entityId[pn] === undefined)
+                throwInvalidEntityId();
+            res[pn] = odataUri.entityId[pn];
+        });
+    }
+    if (schema.multiTenant) {
+        res.tenantId = odataUri.query.tenantId;
+    }
+    return res;
+}
 function get(model, odataUri, res) {
     return __awaiter(this, void 0, Promise, function* () {
         let schema = model.entitySchema(odataUri.entity);
@@ -32,14 +56,13 @@ function get(model, odataUri, res) {
             let mfilter = podata.$filter2mongoFilter(filter, schema);
             let moptions = podata.queryOptions(odataUri.query);
             let docs = yield pmongo.odata.execQuery(pmongo.db.connectionString(model.settings.storage.connect), schema.name, schema, mfilter, moptions);
-            if (docs) {
-                res.status(200).json(docs);
-            }
-            else
-                phoenix_utils_1.http.noi(res, util.format('Not implemented "%s/%s".', odataUri.application, odataUri.entity));
+            res.status(200).json(docs);
         }
-        else
-            phoenix_utils_1.http.error(res, util.format('Not implemented "%s/%s".', odataUri.application, odataUri.entity));
+        else {
+            let filterOne = entityId2MongoFilter(odataUri, schema);
+            let item = yield pmongo.odata.execQueryId(pmongo.db.connectionString(model.settings.storage.connect), schema.name, schema, filterOne, {});
+            res.status(200).json(item);
+        }
     });
 }
 exports.get = get;
