@@ -58,10 +58,17 @@ $ node ./server/import/import sms ./data/init/sms
 In browser :
 
 ```
+// meta entities 
 http://localhost:3000/odata/$applications   //list of applications
 http://localhost:3000/odata/sms/$entities   //list of entities
+
+// Get multiple documments
 http://localhost:3000/odata/sms/SPO_COMMUNE?$top=10&$count=true
 http://localhost:3000/odata/sms/SPO_COMMUNE?$filter=commune eq 'SAINTE-PAZANNE'
+
+// Get one documment
+http://localhost:3000/odata/sms/SPO_COMMUNE('CHAUVE')
+http://localhost:3000/odata/sms/SPO_COMMUNE(idcommune='CHAUVE')
 ```
 
 ##Applications and model 
