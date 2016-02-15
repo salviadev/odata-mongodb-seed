@@ -63,8 +63,13 @@ http://localhost:3000/odata/$applications   //list of applications
 http://localhost:3000/odata/sms/$entities   //list of entities
 
 // Get multiple documments
-http://localhost:3000/odata/sms/SPO_COMMUNE?$top=10&$count=true
+
+//$top, $skip, $count
+http://localhost:3000/odata/sms/SPO_COMMUNE?$top=10&$skip=5&$count=true
+//$filter
 http://localhost:3000/odata/sms/SPO_COMMUNE?$filter=commune eq 'SAINTE-PAZANNE'
+//$select
+http://localhost:3000/odata/sms/SPO_COMMUNE?$select=commune&$top=10
 
 // Get one documment
 http://localhost:3000/odata/sms/SPO_COMMUNE('CHAUVE')

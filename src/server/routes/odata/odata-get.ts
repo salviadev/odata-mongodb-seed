@@ -28,7 +28,7 @@ function entityId2MongoFilter(odataUri: OdataParsedUri, schema: any): any {
                 throwInvalidEntityId();
             res[pn] = odataUri.entityId[pn];
         });
-        
+
     }
     if (schema.multiTenant) {
         res.tenantId = odataUri.query.tenantId;
@@ -51,13 +51,14 @@ export async function get(model: ModelManager, odataUri: OdataParsedUri, res: ex
         }
         let mfilter = podata.$filter2mongoFilter(filter, schema);
         let moptions = podata.queryOptions(odataUri.query);
+        moptions.select = podata.parseSelect(odataUri.query.$select);
         let docs = await pmongo.odata.execQuery(pmongo.db.connectionString(model.settings.storage.connect), schema.name, schema, mfilter, moptions);
         res.status(200).json(docs);
 
     } else {
         let filterOne = entityId2MongoFilter(odataUri, schema);
-        let item = await pmongo.odata.execQueryId(pmongo.db.connectionString(model.settings.storage.connect), schema.name, schema, filterOne, {});
-        res.status(200).json(item);    
+        let item = await pmongo.odata.execQueryId(pmongo.db.connectionString(model.settings.storage.connect), schema.name, schema, filterOne, { select: podata.parseSelect(odataUri.query.$select) });
+        res.status(200).json(item);
     }
 }
 
