@@ -66,10 +66,16 @@ http://localhost:3000/odata/sms/$entities   //list of entities
 
 //$top, $skip, $count
 http://localhost:3000/odata/sms/SPO_COMMUNE?$top=10&$skip=5&$count=true
+
 //$filter
 http://localhost:3000/odata/sms/SPO_COMMUNE?$filter=commune eq 'SAINTE-PAZANNE'
+http://localhost:3000/odata/sms/SPO_COMMUNE?$filter=contains(commune, 'sur')
+
 //$select
 http://localhost:3000/odata/sms/SPO_COMMUNE?$select=commune&$top=10
+
+//$orderby
+http://localhost:3000/odata/sms/SPO_COMMUNE?$orderby=commune desc
 
 // Get one documment
 http://localhost:3000/odata/sms/SPO_COMMUNE('CHAUVE')
