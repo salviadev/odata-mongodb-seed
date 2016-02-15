@@ -62,7 +62,7 @@ In browser :
 http://localhost:3000/odata/$applications   //list of applications
 http://localhost:3000/odata/sms/$entities   //list of entities
 
-// Get multiple documments
+//Requesting Entity Collections
 
 //$top, $skip, $count
 http://localhost:3000/odata/sms/SPO_COMMUNE?$top=10&$skip=5&$count=true
@@ -77,7 +77,11 @@ http://localhost:3000/odata/sms/SPO_COMMUNE?$select=commune&$top=10
 //$orderby
 http://localhost:3000/odata/sms/SPO_COMMUNE?$orderby=commune desc
 
-// Get one documment
+//$search
+http://localhost:3000/odata/sms/SPO_COMMUNE?$search=sur&$filter=contains(commune,'PIR')
+
+
+// Requesting an Individual Entity by ID
 http://localhost:3000/odata/sms/SPO_COMMUNE('CHAUVE')
 http://localhost:3000/odata/sms/SPO_COMMUNE(idcommune='CHAUVE')
 ```

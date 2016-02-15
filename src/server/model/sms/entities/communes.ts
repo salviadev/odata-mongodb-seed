@@ -14,7 +14,8 @@ export var model = {
             },
             "commune": {
                 "title": "Commune",
-                "type": "string"
+                "type": "string",
+                "capabilities": "searchable"
             }
         }
     }
