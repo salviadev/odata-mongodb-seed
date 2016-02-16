@@ -53,6 +53,7 @@ function odataRoutes(app, config, authHandler) {
                 }
                 odataget.get(model, odataUri, res).then(function () {
                 }).catch(function (ex) {
+                    console.log(ex);
                     phoenix_utils_1.http.exception(res, ex);
                 });
             }

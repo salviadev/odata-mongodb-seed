@@ -80,6 +80,9 @@ http://localhost:3000/odata/sms/SPO_COMMUNE?$orderby=commune desc
 //$search
 http://localhost:3000/odata/sms/SPO_COMMUNE?$search=sur&$filter=contains(commune,'PIR')
 
+//Aggregation (see below)
+http://localhost:3000/odata/sms/SPO_OPERATION?&aggregate=$count() as count&groupby=commune
+
 
 // Requesting an Individual Entity by ID
 http://localhost:3000/odata/sms/SPO_COMMUNE('CHAUVE')
@@ -88,4 +91,17 @@ http://localhost:3000/odata/sms/SPO_COMMUNE(idcommune='CHAUVE')
 
 ##Applications and model 
 See folder `./src/server/model` 
+
+##Aggregations `aggregate` and `groupby`   
+```
+// select count(*) as count from TABLE 
+?aggregate=$count() as count 
+
+// select year_part(date), sum(Amount) as total, count(id) as count from TABLE group by year_part(date)  
+?aggregate=$count() as count, $sum(Amount) as total&groupby=$year(date) as year   
+
+// SELECT COUNT(Id), Country  FROM Customer GROUP BY Country
+?aggregate=$count() as count&groupby=Country
+
+```
 
