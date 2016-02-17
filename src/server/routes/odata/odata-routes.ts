@@ -40,9 +40,7 @@ export function odataRoutes(app: express.Express, config, authHandler): void {
                     http.notfound(res, util.format('Entity not not found "%s/%s".', odataUri.application, odataUri.entity));
                     return;
                 }
-
-
-                if (schema.multiTenant && !odataUri.query.tenantId) {
+               if (schema.multiTenant && !odataUri.query.tenantId) {
                     http.error(res, util.format('The tenantId is required for "%s/%s".', odataUri.application, odataUri.entity));
                     return;
                 }
