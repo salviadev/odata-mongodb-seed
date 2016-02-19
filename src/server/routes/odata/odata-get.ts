@@ -26,6 +26,8 @@ export async function get(model: ModelManager, odataUri: OdataParsedUri, res: ex
                 filter = tenantIdFilter;
         }
         let moptions = podata.queryOptions(odataUri.query, schema);
+        moptions.application = odataUri.application;
+        moptions.entity= odataUri.entity;
         let mfilter = podata.$filter2mongoFilter(filter, schema, moptions);
 
         moptions.select = podata.parseSelect(odataUri.query.$select);
@@ -34,7 +36,8 @@ export async function get(model: ModelManager, odataUri: OdataParsedUri, res: ex
 
     } else {
         let filterOne = entityId2MongoFilter(odataUri, schema);
-        let item = await pmongo.odata.execQueryId(pmongo.db.connectionString(model.settings.storage.connect), schema.name, schema, filterOne, { select: podata.parseSelect(odataUri.query.$select) });
+        let mopts = { select: podata.parseSelect(odataUri.query.$select), application: odataUri.application, entity: odataUri.entity };
+        let item = await pmongo.odata.execQueryId(pmongo.db.connectionString(model.settings.storage.connect), schema.name, odataUri.propertyName, schema, filterOne, mopts);
         res.status(200).json(item);
     }
 }

@@ -30,6 +30,8 @@ function get(model, odataUri, res) {
                     filter = tenantIdFilter;
             }
             let moptions = podata.queryOptions(odataUri.query, schema);
+            moptions.application = odataUri.application;
+            moptions.entity = odataUri.entity;
             let mfilter = podata.$filter2mongoFilter(filter, schema, moptions);
             moptions.select = podata.parseSelect(odataUri.query.$select);
             let docs = yield pmongo.odata.execQuery(pmongo.db.connectionString(model.settings.storage.connect), schema.name, schema, mfilter, moptions);
@@ -37,7 +39,8 @@ function get(model, odataUri, res) {
         }
         else {
             let filterOne = odata_utils_1.entityId2MongoFilter(odataUri, schema);
-            let item = yield pmongo.odata.execQueryId(pmongo.db.connectionString(model.settings.storage.connect), schema.name, schema, filterOne, { select: podata.parseSelect(odataUri.query.$select) });
+            let mopts = { select: podata.parseSelect(odataUri.query.$select), application: odataUri.application, entity: odataUri.entity };
+            let item = yield pmongo.odata.execQueryId(pmongo.db.connectionString(model.settings.storage.connect), schema.name, odataUri.propertyName, schema, filterOne, mopts);
             res.status(200).json(item);
         }
     });

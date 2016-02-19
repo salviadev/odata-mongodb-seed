@@ -1,4 +1,10 @@
 1/images
-2/upload + import
+--> get image
+--> get property
+
+2/ Import via upload
+--> truncate
+--> delta
+ 
 
 

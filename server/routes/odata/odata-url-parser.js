@@ -101,12 +101,9 @@ function parseOdataUri(url, method) {
             res.error = { message: "Not implemented yet", status: 501 };
             return res;
         }
-        if (segments.length === 1) {
-            res.propertyName = segments.shift() || '';
-            return res;
+        if (segments.length) {
+            res.propertyName = segments.join('.');
         }
-        res.error = { message: "Not implemented yet", status: 501 };
-        return res;
     }
     return res;
 }
