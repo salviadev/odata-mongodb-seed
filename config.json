@@ -2,6 +2,10 @@
     "http": {
         "port": 3000
     },
+    "upload": {
+        "dest": "./uploads/",
+        "fileField": "file"
+    },
     "odata": {
         "applications": {
             "sms": {

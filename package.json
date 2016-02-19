@@ -7,6 +7,7 @@
     "dependencies": {
         "express": "latest",
         "body-parser": "latest",
+        "multer": "latest",
         "phoenix-utils": "git+https://git@github.com/salviadev/phoenix-utils.git",
         "phoenix-mongodb": "git+https://git@github.com/salviadev/phoenix-mongodb.git",
         "phoenix-odata": "git+https://git@github.com/salviadev/phoenix-odata.git",

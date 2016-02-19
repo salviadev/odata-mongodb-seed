@@ -13,33 +13,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, Promi
     });
 };
 var util = require('util');
-var phoenix_utils_1 = require('phoenix-utils');
 var pmongo = require('phoenix-mongodb');
 var podata = require('phoenix-odata');
-var pschema = require('phoenix-json-schema-tools');
-function throwInvalidEntityId() {
-    throw new phoenix_utils_1.http.HttpError("Invalid entityId.", 400);
-}
-function entityId2MongoFilter(odataUri, schema) {
-    let res = {};
-    let pkFields = pschema.schema.pkFields(schema);
-    if (typeof odataUri.entityId === "string") {
-        if (pkFields.length !== 1)
-            throwInvalidEntityId();
-        res[pkFields[0]] = odataUri.entityId;
-    }
-    else {
-        pkFields.forEach(pn => {
-            if (odataUri.entityId[pn] === undefined)
-                throwInvalidEntityId();
-            res[pn] = odataUri.entityId[pn];
-        });
-    }
-    if (schema.multiTenant) {
-        res.tenantId = odataUri.query.tenantId;
-    }
-    return res;
-}
+var odata_utils_1 = require('./odata-utils');
 function get(model, odataUri, res) {
     return __awaiter(this, void 0, Promise, function* () {
         let schema = model.entitySchema(odataUri.entity);
@@ -60,7 +36,7 @@ function get(model, odataUri, res) {
             res.status(200).json(docs);
         }
         else {
-            let filterOne = entityId2MongoFilter(odataUri, schema);
+            let filterOne = odata_utils_1.entityId2MongoFilter(odataUri, schema);
             let item = yield pmongo.odata.execQueryId(pmongo.db.connectionString(model.settings.storage.connect), schema.name, schema, filterOne, { select: podata.parseSelect(odataUri.query.$select) });
             res.status(200).json(item);
         }

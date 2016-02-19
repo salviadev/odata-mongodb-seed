@@ -12,11 +12,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, Promi
         step("next", void 0);
     });
 };
-var odata_routes_1 = require("./odata/odata-routes");
-var odata_import_routes_1 = require("./odata/odata-import-routes");
-function routes(app, config, authHandler) {
-    odata_import_routes_1.uploadRoutes(app, config, authHandler);
-    odata_routes_1.odataRoutes(app, config, authHandler);
-}
-exports.routes = routes;
-;
+exports.odataRouting = {
+    appnotfound: 'Application not found "%s".',
+    entitynotfound: 'Entity not not found "%s/%s".',
+    tenantIdmandatory: 'The tenantId is required for "%s/%s".',
+    propertyNotFound: 'Property not found "%s/%s/%s".'
+};

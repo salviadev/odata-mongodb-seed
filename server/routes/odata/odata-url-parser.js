@@ -92,18 +92,21 @@ function parseOdataUri(url, method) {
         res.error = { message: invalidUrlAppEntity, status: 400 };
         return res;
     }
+    _parseEntityId(res);
     if (!segments.length) {
-        _parseEntityId(res);
         return res;
     }
     else {
         if (res.entity.charAt(0) === '$') {
-            res.error = { message: "Not implemented yet", status: 400 };
+            res.error = { message: "Not implemented yet", status: 501 };
+            return res;
         }
-        else {
-            // invalid odata url
-            res.error = { message: invalidUrl, status: 400 };
+        if (segments.length === 1) {
+            res.propertyName = segments.shift() || '';
+            return res;
         }
+        res.error = { message: "Not implemented yet", status: 501 };
+        return res;
     }
     return res;
 }

@@ -8,6 +8,7 @@ export interface OdataParsedUri {
     },
     query: any,
     entity?: string,
+    propertyName?: string,
     entityId?: any,
     method: string,
     application: string
@@ -81,7 +82,7 @@ export function parseOdataUri(url: string, method: string): OdataParsedUri {
         query: {}
     };
     let query, i = url.indexOf('?');
-    
+
     if (i > 0) {
         query = url.substring(i + 1);
         url = url.substr(0, i);
@@ -119,17 +120,22 @@ export function parseOdataUri(url: string, method: string): OdataParsedUri {
         res.error = { message: invalidUrlAppEntity, status: 400 };
         return res;
     }
+    _parseEntityId(res);
 
     if (!segments.length) {
-        _parseEntityId(res);
         return res;
     } else {
         if (res.entity.charAt(0) === '$') {
-            res.error = { message: "Not implemented yet", status: 400 };
-        } else {
-            // invalid odata url
-            res.error = { message: invalidUrl, status: 400 };
+            res.error = { message: "Not implemented yet", status: 501 };
+            return res;
         }
+        if (segments.length === 1) {
+            res.propertyName = segments.shift() || '';
+            return res;
+        }
+        res.error = { message: "Not implemented yet", status: 501 };
+        return res;
+
     }
     return res;
 

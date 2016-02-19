@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, Promise, generator) {
     return new Promise(function (resolve, reject) {
         generator = generator.call(thisArg, _arguments);
@@ -12,11 +11,29 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, Promi
         step("next", void 0);
     });
 };
-var odata_routes_1 = require("./odata/odata-routes");
-var odata_import_routes_1 = require("./odata/odata-import-routes");
-function routes(app, config, authHandler) {
-    odata_import_routes_1.uploadRoutes(app, config, authHandler);
-    odata_routes_1.odataRoutes(app, config, authHandler);
-}
-exports.routes = routes;
-;
+exports.model = {
+    schema: {
+        "name": "SPO_IMAGES",
+        "title": "Images",
+        "primaryKey": "img",
+        "indexes": [{
+                "unique": false,
+                "fields": "idop"
+            }],
+        "properties": {
+            "img": {
+                "type": "string"
+            },
+            "idop": {
+                "type": "string"
+            },
+            "titre": {
+                "type": "string"
+            },
+            "photo": {
+                "title": "Photo",
+                "type": "binary"
+            }
+        }
+    }
+};

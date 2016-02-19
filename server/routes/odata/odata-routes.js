@@ -16,6 +16,7 @@ var util = require('util');
 var phoenix_utils_1 = require('phoenix-utils');
 var podata = require('phoenix-odata');
 var odataget = require('./odata-get');
+var odata_messages_1 = require('./odata-messages');
 var odata_url_parser_1 = require('./odata-url-parser');
 var index_1 = require('../../configuration/index');
 function odataRoutes(app, config, authHandler) {
@@ -34,7 +35,7 @@ function odataRoutes(app, config, authHandler) {
         else {
             let model = appManager.application(odataUri.application);
             if (!model) {
-                phoenix_utils_1.http.notfound(res, util.format('Application not found "%s".', odataUri.application));
+                phoenix_utils_1.http.notfound(res, util.format(odata_messages_1.odataRouting.appnotfound, odataUri.application));
                 return;
             }
             if (odataUri.entity === "$entities") {
@@ -44,11 +45,11 @@ function odataRoutes(app, config, authHandler) {
             else {
                 let schema = model.entitySchema(odataUri.entity);
                 if (!schema) {
-                    phoenix_utils_1.http.notfound(res, util.format('Entity not not found "%s/%s".', odataUri.application, odataUri.entity));
+                    phoenix_utils_1.http.notfound(res, util.format(odata_messages_1.odataRouting.entitynotfound, odataUri.application, odataUri.entity));
                     return;
                 }
                 if (schema.multiTenant && !odataUri.query.tenantId) {
-                    phoenix_utils_1.http.error(res, util.format('The tenantId is required for "%s/%s".', odataUri.application, odataUri.entity));
+                    phoenix_utils_1.http.error(res, util.format(odata_messages_1.odataRouting.tenantIdmandatory, odataUri.application, odataUri.entity));
                     return;
                 }
                 odataget.get(model, odataUri, res).then(function () {

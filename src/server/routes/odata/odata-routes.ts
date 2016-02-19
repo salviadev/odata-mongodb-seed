@@ -6,6 +6,7 @@ import * as  util  from 'util';
 import {http}  from 'phoenix-utils';
 import * as podata  from 'phoenix-odata';
 import * as odataget from './odata-get';
+import {odataRouting} from './odata-messages';
 
 import {parseOdataUri}  from './odata-url-parser';
 import {applicationManager}  from '../../configuration/index';
@@ -28,7 +29,7 @@ export function odataRoutes(app: express.Express, config, authHandler): void {
 
             let model = appManager.application(odataUri.application);
             if (!model) {
-                http.notfound(res, util.format('Application not found "%s".', odataUri.application));
+                http.notfound(res, util.format(odataRouting.appnotfound, odataUri.application));
                 return;
             }
             if (odataUri.entity === "$entities") {
@@ -37,21 +38,21 @@ export function odataRoutes(app: express.Express, config, authHandler): void {
             } else {
                 let schema = model.entitySchema(odataUri.entity);
                 if (!schema) {
-                    http.notfound(res, util.format('Entity not not found "%s/%s".', odataUri.application, odataUri.entity));
+                    http.notfound(res, util.format(odataRouting.entitynotfound, odataUri.application, odataUri.entity));
                     return;
                 }
-               if (schema.multiTenant && !odataUri.query.tenantId) {
-                    http.error(res, util.format('The tenantId is required for "%s/%s".', odataUri.application, odataUri.entity));
+                if (schema.multiTenant && !odataUri.query.tenantId) {
+                    http.error(res, util.format(odataRouting.tenantIdmandatory, odataUri.application, odataUri.entity));
                     return;
                 }
 
                 odataget.get(model, odataUri, res).then(function() {
 
                 }).catch(function(ex) {
-                    
+
                     console.log(ex);
                     http.exception(res, ex);
-                    
+
                 });
             }
         }
