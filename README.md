@@ -87,6 +87,10 @@ http://localhost:3000/odata/sms/SPO_OPERATION?aggregate=$count() as count&groupb
 // Requesting an Individual Entity by ID
 http://localhost:3000/odata/sms/SPO_COMMUNE('CHAUVE')
 http://localhost:3000/odata/sms/SPO_COMMUNE(idcommune='CHAUVE')
+
+// Requesting an Individual Property
+http://localhost:3000/odata/sms/SPO_COMMUNE('CHAUVE')/commune
+
 ```
 
 ##Applications and model 
@@ -107,4 +111,16 @@ See folder `./src/server/model`
 ?aggregate=$count() as count&groupby=Country&having=count gt 3
 
 ```
+##Binary data (images/videos/files)  
 
+
+###Upload
+```
+$ curl -v -F file=@image.jpg -X POST "http://localhost:3000/odata/sms/SPO_IMAGES('xxxx')/photo"
+
+```
+
+###Download
+```
+http://localhost:3000/odata/sms/SPO_IMAGES('xxxx')/photo
+```

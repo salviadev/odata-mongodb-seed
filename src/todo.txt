@@ -1,10 +1,7 @@
-1/images
---> get image
---> get property
 
-2/ Import via upload
+1/ Import via upload
 --> truncate
---> delta
+--> delta (update or insert)
  
 
 
