@@ -117,7 +117,6 @@ See folder `./src/server/model`
 ### Upload
 ```
 $ curl -v -F file=@image.jpg -X POST "http://localhost:3000/odata/sms/SPO_IMAGES('xxxx')/photo"
-
 ```
 
 ### Download
@@ -125,3 +124,10 @@ $ curl -v -F file=@image.jpg -X POST "http://localhost:3000/odata/sms/SPO_IMAGES
 ```
 http://localhost:3000/odata/sms/SPO_IMAGES('xxxx')/photo
 ```
+
+# Import data
+## Mode Insert
+## Mode Update
+## Format 
+
+ 

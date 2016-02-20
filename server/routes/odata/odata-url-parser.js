@@ -53,7 +53,7 @@ function _parseEntityId(oUri) {
 }
 function parseOdataUri(url, method) {
     const invalidUrl = 'Invalid odata url, excepted: "/odata/{application}/{entity}"', invalidUrlAppMissing = 'Invalid odata url, application is missing.', invalidUrlAppEntity = 'Invalid odata url, entity is missing.';
-    let root = '/odata/';
+    let root, rootOdata = '/odata/', rootUpload = '/upload/';
     let res = {
         method: method,
         query: {}
@@ -68,7 +68,13 @@ function parseOdataUri(url, method) {
                 res.query[a[0]] = decodeURIComponent(a[1]);
         });
     }
-    i = url.indexOf(root);
+    i = url.indexOf(rootOdata);
+    if (i < 0) {
+        i = url.indexOf(rootUpload);
+        root = rootUpload;
+    }
+    else
+        root = rootOdata;
     if (i < 0) {
         res.error = { message: invalidUrl, status: 400 };
         return res;

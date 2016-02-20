@@ -76,7 +76,7 @@ export function parseOdataUri(url: string, method: string): OdataParsedUri {
         invalidUrlAppMissing = 'Invalid odata url, application is missing.',
         invalidUrlAppEntity = 'Invalid odata url, entity is missing.';
 
-    let root = '/odata/';
+    let root, rootOdata = '/odata/', rootUpload = '/upload/';
     let res: any = {
         method: method,
         query: {}
@@ -94,7 +94,12 @@ export function parseOdataUri(url: string, method: string): OdataParsedUri {
         });
     }
 
-    i = url.indexOf(root);
+    i = url.indexOf(rootOdata);
+    if (i < 0) {
+      i = url.indexOf(rootUpload);  
+      root = rootUpload;
+    } else 
+        root = rootOdata
     if (i < 0) {
         res.error = { message: invalidUrl, status: 400 };
         return res;
