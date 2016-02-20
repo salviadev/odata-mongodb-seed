@@ -1,12 +1,12 @@
 "use strict";
 
-import * as  path  from 'path';
-import * as  fs from 'fs';
-import * as  express  from 'express';
-import * as  util  from 'util';
-import * as  multer from 'multer';
-import {http}  from 'phoenix-utils';
-import *  as pmongo  from 'phoenix-mongodb';
+import * as path  from 'path';
+import * as fs from 'fs';
+import * as express  from 'express';
+import * as util  from 'util';
+import * as multer from 'multer';
+import * as putils  from 'phoenix-utils';
+import * as pmongo  from 'phoenix-mongodb';
 
 import {odataRouting} from './odata-messages';
 import {entityId2MongoFilter} from './odata-utils';
@@ -16,6 +16,43 @@ import {applicationManager, ApplicationManager, ModelManager}  from '../../confi
 
 
 
+function checkIsBinaryProperty(odataUri: OdataParsedUri, res: express.Response, next: Function): any {
+    if (odataUri.error) {
+        putils.http.error(res, odataUri.error.message, odataUri.error.status);
+        return null;
+    }
+    if (!odataUri.entityId) {
+        next();
+        return null;
+    }
+
+    let appManager = applicationManager();
+    let model = appManager.application(odataUri.application);
+    if (!model) {
+        putils.http.notfound(res, util.format(odataRouting.appnotfound, odataUri.application));
+        return null;
+    }
+    let schema = model.entitySchema(odataUri.entity);
+    if (!schema) {
+        putils.http.notfound(res, util.format(odataRouting.entitynotfound, odataUri.application, odataUri.entity));
+        return null;
+    }
+    if (schema.multiTenant && !odataUri.query.tenantId) {
+        putils.http.error(res, util.format(odataRouting.tenantIdmandatory, odataUri.application, odataUri.entity));
+        return null;
+    }
+    let cs = schema.properties[odataUri.propertyName];
+    if (!cs) {
+        putils.http.error(res, util.format(odataRouting.propertyNotFound, odataUri.application, odataUri.entity, odataUri.propertyName));
+        return null;
+    }
+    if (cs.type === "binary") {
+        return { schema: schema, model: model };
+    }
+    next();
+    return null;
+
+}
 export function uploadRoutes(app: express.Express, config, authHandler): void {
 
     let uploadCfg = config.upload || {};
@@ -23,37 +60,24 @@ export function uploadRoutes(app: express.Express, config, authHandler): void {
     let upload = multer({ dest: uploadCfg.dest });
     app.post('/odata/:application/:entity/:binaryProperty', upload.single(uploadCfg.fileField), function(req, res, next) {
         let odataUri = parseOdataUri(req.url, "POST");
-        if (odataUri.error) {
-            http.error(res, odataUri.error.message, odataUri.error.status);
-            return;
+        let cb = checkIsBinaryProperty(odataUri, res, next);
+        if (cb)
+            _doUploadBinaryProperty(app, odataUri, cb.model, cb.schema, req, res);
+    });
+    app.get('/odata/:application/:entity/:binaryProperty', function(req, res, next) {
+        let odataUri = parseOdataUri(req.url, "GET");
+        let cb = checkIsBinaryProperty(odataUri, res, next);
+        if (cb) {
+            pmongo.upload.downloadBinaryProperty(pmongo.db.connectionString(cb.model.settings.storage.connect),
+                cb.schema, entityId2MongoFilter(odataUri, cb.schema), odataUri.propertyName, res, function(error) {
+                    if (error)
+                        putils.http.exception(res, error);
+                });
+
         }
-        if (!odataUri.entityId) return next();
-        let appManager = applicationManager();
-        let model = appManager.application(odataUri.application);
-        if (!model) {
-            http.notfound(res, util.format(odataRouting.appnotfound, odataUri.application));
-            return;
-        }
-        let schema = model.entitySchema(odataUri.entity);
-        if (!schema) {
-            http.notfound(res, util.format(odataRouting.entitynotfound, odataUri.application, odataUri.entity));
-            return;
-        }
-        if (schema.multiTenant && !odataUri.query.tenantId) {
-            http.error(res, util.format(odataRouting.tenantIdmandatory, odataUri.application, odataUri.entity));
-            return;
-        }
-        let cs = schema.properties[odataUri.propertyName];
-        if (!cs) {
-            http.error(res, util.format(odataRouting.propertyNotFound, odataUri.application, odataUri.entity, odataUri.propertyName));
-            return;
-        }
-        if (cs.type === "binary") {
-            return _doUploadBinaryProperty(app, odataUri, model, schema, req, res);
-        }
-        return next();
 
     });
+
 }
 
 function _doUploadBinaryProperty(app: express.Express, odataUri: OdataParsedUri, model: ModelManager, schema: any, req: express.Request, res: express.Response): void {
@@ -62,7 +86,7 @@ function _doUploadBinaryProperty(app: express.Express, odataUri: OdataParsedUri,
         schema, entityId2MongoFilter(odataUri, schema), odataUri.propertyName, req.file.originalname, req.file.mimetype, fs.createReadStream(fileName), function(error) {
             fs.unlink(fileName, function(err) {
                 if (error) {
-                    http.exception(res, error);
+                    putils.http.exception(res, error);
                 } else {
                     res.sendStatus(201);
                 }
