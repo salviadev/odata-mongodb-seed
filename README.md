@@ -1,4 +1,4 @@
-#Seed project for odata-mongodb server
+# Seed project for odata-mongodb server
 
 
 ## Install and build
@@ -11,7 +11,7 @@
 
 ## Initialize demo database
 
-##Edit config.json
+### Edit config.json
 
 Modify `connect` entry for the application `sms`.
 
@@ -42,7 +42,7 @@ Modify `connect` entry for the application `sms`.
 }
 ```
 
-###Initialize demo database
+### Initialize demo database
 
 Open Terminal (for Mac and Linux users) or the command prompt (for Windows users):
 
@@ -50,7 +50,7 @@ Open Terminal (for Mac and Linux users) or the command prompt (for Windows users
 $ node ./server/import/import sms ./data/init/sms
 ```
 
-##Start odata server
+## Start odata server
  
 ```
 $ node ./server/import/import sms ./data/init/sms
@@ -93,10 +93,10 @@ http://localhost:3000/odata/sms/SPO_COMMUNE('CHAUVE')/commune
 
 ```
 
-##Applications and model 
+## Applications and model 
 See folder `./src/server/model` 
 
-##Aggregations `aggregate`,  `groupby`, `having`    
+## Aggregations `aggregate`,  `groupby`, `having`    
 ```
 // select count(*) as count from TABLE 
 ?aggregate=$count() as count 
@@ -111,16 +111,17 @@ See folder `./src/server/model`
 ?aggregate=$count() as count&groupby=Country&having=count gt 3
 
 ```
-##Binary data (images/videos/files)  
+## Binary data (images/videos/files)  
 
 
-###Upload
+### Upload
 ```
 $ curl -v -F file=@image.jpg -X POST "http://localhost:3000/odata/sms/SPO_IMAGES('xxxx')/photo"
 
 ```
 
-###Download
+### Download
+
 ```
 http://localhost:3000/odata/sms/SPO_IMAGES('xxxx')/photo
 ```
