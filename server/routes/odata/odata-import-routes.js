@@ -91,7 +91,7 @@ function _doImport(app, odataUri, model, schema, req, res) {
         });
     };
     let dbUri = pmongo.db.connectionString(model.settings.storage.connect);
-    let opts = { truncate: true, onImported: null };
+    let opts = { truncate: odataUri.query.truncate && odataUri.query.truncate !== 'false', onImported: null };
     let tenantId = parseInt(odataUri.query.tenantId || '0', 10);
     pmongo.schema.importCollectionFromStream(dbUri, schema, fs.createReadStream(fileName), opts, tenantId).then(function () {
         afterImport(null);
