@@ -126,8 +126,33 @@ http://localhost:3000/odata/sms/SPO_IMAGES('xxxx')/photo
 ```
 
 # Import data
+
+```
+$ curl -v -F file=@SPO_COMMUNE.json -X POST "http://localhost:3000/upload/sms/SPO_COMMUNE?truncate=true"
+```
+
+
 ## Mode Insert
-## Mode Update
-## Format 
+
+```
+$ curl -v -F file=@SPO_COMMUNE.json -X POST "http://localhost:3000/upload/sms/SPO_COMMUNE?truncate=true"
+```
+
+## Mode Upset
+
+```
+$ curl -v -F file=@SPO_COMMUNE.json -X POST "http://localhost:3000/upload/sms/SPO_COMMUNE?truncate=false"
+```
+
+
+## Format
+
+```
+$ curl -v -F file=@SPO_COMMUNE.json -X POST "http://localhost:3000/upload/sms/SPO_COMMUNE?truncate=false&format=csv"
+```
+Default `format=json`.
+
+
+ 
 
  

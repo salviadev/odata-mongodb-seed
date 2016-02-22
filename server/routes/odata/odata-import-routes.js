@@ -80,20 +80,28 @@ function _doUploadBinaryProperty(app, odataUri, model, schema, req, res) {
 ;
 function _doImport(app, odataUri, model, schema, req, res) {
     let fileName = path.join(req.file.destination, req.file.filename);
+    let success = '';
+    let dbUri = pmongo.db.connectionString(model.settings.storage.connect);
+    let opts = {
+        truncate: odataUri.query.truncate && odataUri.query.truncate !== 'false',
+        onImported: function (cs, count) {
+            success = util.format("%s: %d lines impotred", cs.name, count);
+        },
+        format: odataUri.query.format || 'json'
+    };
     let afterImport = function (error) {
         fs.unlink(fileName, function (err) {
             if (error) {
                 putils.http.exception(res, error);
             }
             else {
-                res.sendStatus(200);
+                res.status(200).send(success);
             }
         });
     };
-    let dbUri = pmongo.db.connectionString(model.settings.storage.connect);
-    let opts = { truncate: odataUri.query.truncate && odataUri.query.truncate !== 'false', onImported: null };
     let tenantId = parseInt(odataUri.query.tenantId || '0', 10);
-    pmongo.schema.importCollectionFromStream(dbUri, schema, fs.createReadStream(fileName), opts, tenantId).then(function () {
+    let readStream = fs.createReadStream(fileName);
+    pmongo.schema.importCollectionFromStream(dbUri, schema, readStream, opts, tenantId).then(function () {
         afterImport(null);
     }).catch(function (error) {
         afterImport(error);
