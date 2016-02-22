@@ -16,12 +16,15 @@ import {applicationManager, ApplicationManager, ModelManager}  from '../../confi
 
 
 
-function checkModel(odataUri: OdataParsedUri, res: express.Response, next: Function): any {
+function checkModel(odataUri: OdataParsedUri, entityIdMandatory: boolean, res: express.Response, next: Function): any {
     if (odataUri.error) {
         putils.http.error(res, odataUri.error.message, odataUri.error.status);
         return null;
     }
-    if (!odataUri.entityId) {
+    if (entityIdMandatory && !odataUri.entityId) {
+        next();
+        return null;
+    } else if (!entityIdMandatory && odataUri.entityId) {
         next();
         return null;
     }
@@ -83,7 +86,16 @@ function _doImport(app: express.Express, odataUri: OdataParsedUri, model: ModelM
             }
         });
     };
-    afterImport(null);
+    let dbUri = pmongo.db.connectionString(model.settings.storage.connect);
+    let opts = { truncate: odataUri.query.truncate  &&  odataUri.query.truncate !== 'false', onImported: null };
+    let tenantId = parseInt(odataUri.query.tenantId || '0', 10);
+
+    pmongo.schema.importCollectionFromStream(dbUri, schema, fs.createReadStream(fileName), opts, tenantId).then(function() {
+        afterImport(null);
+    }).catch(function(error) {
+        afterImport(error);
+    })
+
 };
 
 
@@ -93,7 +105,7 @@ export function uploadRoutes(app: express.Express, config, authHandler): void {
     let upload = multer({ dest: uploadCfg.dest });
     app.post('/odata/:application/:entity/:binaryProperty', upload.single(uploadCfg.fileField), function(req, res, next) {
         let odataUri = parseOdataUri(req.url, "POST");
-        let cb = checkModel(odataUri, res, next);
+        let cb = checkModel(odataUri, true, res, next);
         if (cb) {
             cb = checkBinaryProp(cb, odataUri, res, next);
             if (cb) _doUploadBinaryProperty(app, odataUri, cb.model, cb.schema, req, res);
@@ -101,7 +113,7 @@ export function uploadRoutes(app: express.Express, config, authHandler): void {
     });
     app.post('/upload/:application/:entity', upload.single(uploadCfg.fileField), function(req, res, next) {
         let odataUri = parseOdataUri(req.url, "POST");
-        let cb = checkModel(odataUri, res, next);
+        let cb = checkModel(odataUri, false, res, next);
         if (cb) {
             _doImport(app, odataUri, cb.model, cb.schema, req, res);
         }
@@ -109,7 +121,7 @@ export function uploadRoutes(app: express.Express, config, authHandler): void {
 
     app.get('/odata/:application/:entity/:binaryProperty', function(req, res, next) {
         let odataUri = parseOdataUri(req.url, "GET");
-        let cb = checkModel(odataUri, res, next);
+        let cb = checkModel(odataUri, true, res, next);
         if (cb) {
             cb = checkBinaryProp(cb, odataUri, res, next);
             if (cb) {

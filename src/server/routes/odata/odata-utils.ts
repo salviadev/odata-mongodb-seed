@@ -31,7 +31,7 @@ export function entityId2MongoFilter(odataUri: OdataParsedUri, schema: any): any
 
     }
     if (schema.multiTenant) {
-        res.tenantId = odataUri.query.tenantId;
+        res.tenantId = parseInt(odataUri.query.tenantId, 10) || 0;
     }
     
     return res;

@@ -1,7 +1,18 @@
 
+
+
 1/ Import via upload
 --> truncate
 --> delta (update or insert)
  
 
+--------------------------------------------
+---> empty collection (remove from fs.files)
+---> insert emlements
+--------------------------------------------
+--> update elements
+--> images
+-------------------------------------------
+--> empty upload  folder on start
 
+-------------------------------------------

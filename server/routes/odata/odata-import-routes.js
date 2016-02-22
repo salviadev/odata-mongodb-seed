@@ -22,12 +22,16 @@ var odata_messages_1 = require('./odata-messages');
 var odata_utils_1 = require('./odata-utils');
 var odata_url_parser_1 = require('./odata-url-parser');
 var index_1 = require('../../configuration/index');
-function checkModel(odataUri, res, next) {
+function checkModel(odataUri, entityIdMandatory, res, next) {
     if (odataUri.error) {
         putils.http.error(res, odataUri.error.message, odataUri.error.status);
         return null;
     }
-    if (!odataUri.entityId) {
+    if (entityIdMandatory && !odataUri.entityId) {
+        next();
+        return null;
+    }
+    else if (!entityIdMandatory && odataUri.entityId) {
         next();
         return null;
     }
@@ -86,7 +90,14 @@ function _doImport(app, odataUri, model, schema, req, res) {
             }
         });
     };
-    afterImport(null);
+    let dbUri = pmongo.db.connectionString(model.settings.storage.connect);
+    let opts = { truncate: true, onImported: null };
+    let tenantId = parseInt(odataUri.query.tenantId || '0', 10);
+    pmongo.schema.importCollectionFromStream(dbUri, schema, fs.createReadStream(fileName), opts, tenantId).then(function () {
+        afterImport(null);
+    }).catch(function (error) {
+        afterImport(error);
+    });
 }
 ;
 function uploadRoutes(app, config, authHandler) {
@@ -95,7 +106,7 @@ function uploadRoutes(app, config, authHandler) {
     let upload = multer({ dest: uploadCfg.dest });
     app.post('/odata/:application/:entity/:binaryProperty', upload.single(uploadCfg.fileField), function (req, res, next) {
         let odataUri = odata_url_parser_1.parseOdataUri(req.url, "POST");
-        let cb = checkModel(odataUri, res, next);
+        let cb = checkModel(odataUri, true, res, next);
         if (cb) {
             cb = checkBinaryProp(cb, odataUri, res, next);
             if (cb)
@@ -104,14 +115,14 @@ function uploadRoutes(app, config, authHandler) {
     });
     app.post('/upload/:application/:entity', upload.single(uploadCfg.fileField), function (req, res, next) {
         let odataUri = odata_url_parser_1.parseOdataUri(req.url, "POST");
-        let cb = checkModel(odataUri, res, next);
+        let cb = checkModel(odataUri, false, res, next);
         if (cb) {
             _doImport(app, odataUri, cb.model, cb.schema, req, res);
         }
     });
     app.get('/odata/:application/:entity/:binaryProperty', function (req, res, next) {
         let odataUri = odata_url_parser_1.parseOdataUri(req.url, "GET");
-        let cb = checkModel(odataUri, res, next);
+        let cb = checkModel(odataUri, true, res, next);
         if (cb) {
             cb = checkBinaryProp(cb, odataUri, res, next);
             if (cb) {

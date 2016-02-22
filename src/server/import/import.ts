@@ -74,7 +74,7 @@ async function initializeDatabase(): Promise<void> {
     let files = await dataFiles(schemas, dataPath);
     await importFiles(cs, files,
         {
-            insert: true,
+            truncate: true,
             onImported: function(schema, lc) {
                 console.log(util.format("%s - %d documents inserted.", schema.name, lc));
             }

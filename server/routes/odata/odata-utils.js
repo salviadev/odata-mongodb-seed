@@ -20,7 +20,7 @@ function entityId2MongoFilter(odataUri, schema) {
         });
     }
     if (schema.multiTenant) {
-        res.tenantId = odataUri.query.tenantId;
+        res.tenantId = parseInt(odataUri.query.tenantId, 10) || 0;
     }
     return res;
 }

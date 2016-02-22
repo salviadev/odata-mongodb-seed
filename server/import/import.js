@@ -72,7 +72,7 @@ function initializeDatabase() {
         yield pmongo.schema.createCollections(cs, schemas);
         let files = yield dataFiles(schemas, dataPath);
         yield importFiles(cs, files, {
-            insert: true,
+            truncate: true,
             onImported: function (schema, lc) {
                 console.log(util.format("%s - %d documents inserted.", schema.name, lc));
             }
