@@ -53,7 +53,7 @@ $ node ./server/import/import sms ./data/init/sms
 ## Start odata server
  
 ```
-$ node ./server/import/import sms ./data/init/sms
+$ node app
 ```
 In browser :
 
