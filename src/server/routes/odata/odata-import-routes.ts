@@ -7,16 +7,15 @@ import * as util  from 'util';
 import * as multer from 'multer';
 import * as putils  from 'phoenix-utils';
 import * as pmongo  from 'phoenix-mongodb';
+import * as podata  from 'phoenix-odata';
 
 import {odataRouting} from './odata-messages';
-import {entityId2MongoFilter} from './odata-utils';
-
-import {parseOdataUri, OdataParsedUri}  from './odata-url-parser';
+import {parseOdataUri}  from './odata-url-parser';
 import {applicationManager, ApplicationManager, ModelManager}  from '../../configuration/index';
 
 
 
-function checkModel(odataUri: OdataParsedUri, entityIdMandatory: boolean, res: express.Response, next: Function): any {
+function checkModel(odataUri: podata.OdataParsedUri, entityIdMandatory: boolean, res: express.Response, next: Function): any {
     if (odataUri.error) {
         putils.http.error(res, odataUri.error.message, odataUri.error.status);
         return null;
@@ -47,7 +46,7 @@ function checkModel(odataUri: OdataParsedUri, entityIdMandatory: boolean, res: e
     return { schema: schema, model: model };
 }
 
-function checkBinaryProp(param: any, odataUri: OdataParsedUri, res: express.Response, next: Function): any {
+function _checkBinaryProp(param: any, odataUri: podata.OdataParsedUri, res: express.Response, next: Function): any {
     let cs = param.schema.properties[odataUri.propertyName];
     if (!cs) {
         putils.http.error(res, util.format(odataRouting.propertyNotFound, odataUri.application, odataUri.entity, odataUri.propertyName));
@@ -61,55 +60,59 @@ function checkBinaryProp(param: any, odataUri: OdataParsedUri, res: express.Resp
 
 }
 
-function _doUploadBinaryProperty(app: express.Express, odataUri: OdataParsedUri, model: ModelManager, schema: any, req: express.Request, res: express.Response): void {
-    let fileName = path.join(req.file.destination, req.file.filename);
-    pmongo.upload.uploadBinaryProperty(pmongo.db.connectionString(model.settings.storage.connect),
-        schema, entityId2MongoFilter(odataUri, schema), odataUri.propertyName, req.file.originalname, req.file.mimetype, fs.createReadStream(fileName), function(error) {
-            fs.unlink(fileName, function(err) {
-                if (error) {
-                    putils.http.exception(res, error);
-                } else {
-                    res.sendStatus(201);
-                }
-            });
-        });
+function _doUploadBinaryProperty(app: express.Express, odataUri: podata.OdataParsedUri, model: ModelManager, schema: any, req: express.Request, res: express.Response): void {
+    /*
+       let fileName = path.join(req.file.destination, req.file.filename);
+       pmongo.upload.uploadBinaryProperty(pmongo.db.connectionString(model.settings.storage.connect),
+           schema, entityId2MongoFilter(odataUri, schema), odataUri.propertyName, req.file.originalname, req.file.mimetype, fs.createReadStream(fileName), function(error) {
+               fs.unlink(fileName, function(err) {
+                   if (error) {
+                       putils.http.exception(res, error);
+                   } else {
+                       res.sendStatus(201);
+                   }
+               });
+           });
+   */
 };
 
-function _doImport(app: express.Express, odataUri: OdataParsedUri, model: ModelManager, schema: any, req: express.Request, res: express.Response): void {
-    let fileName = path.join(req.file.destination, req.file.filename);
-    let success = '';
-    let dbUri = pmongo.db.connectionString(model.settings.storage.connect);
-    let opts = {
-        truncate: odataUri.query.truncate && odataUri.query.truncate !== 'false',
-        onImported: function(cs, count) {
-            success = util.format("%s: %d lines impotred", cs.name, count);
-
-        },
-        format: odataUri.query.format || 'json'
-    };
-    let afterImport = function(error) {
-        fs.unlink(fileName, function(err) {
-            if (error) {
-                putils.http.exception(res, error);
-            } else {
-                res.status(200).send(success);
-            }
-        });
-    };
-    let tenantId = parseInt(odataUri.query.tenantId || '0', 10);
-
-    let readStream = fs.createReadStream(fileName);
-
-    pmongo.schema.importCollectionFromStream(dbUri, schema, readStream, opts, tenantId).then(function() {
-        afterImport(null);
-    }).catch(function(error) {
-        afterImport(error);
-    })
-
+function _doImport(app: express.Express, odataUri: podata.OdataParsedUri, model: ModelManager, schema: any, req: express.Request, res: express.Response): void {
+    /*
+      let fileName = path.join(req.file.destination, req.file.filename);
+      let success = '';
+      let dbUri = pmongo.db.connectionString(model.settings.storage.connect);
+      let opts = {
+          truncate: odataUri.query.truncate && odataUri.query.truncate !== 'false',
+          onImported: function(cs, count) {
+              success = util.format("%s: %d lines impotred", cs.name, count);
+  
+          },
+          format: odataUri.query.format || 'json'
+      };
+      let afterImport = function(error) {
+          fs.unlink(fileName, function(err) {
+              if (error) {
+                  putils.http.exception(res, error);
+              } else {
+                  res.status(200).send(success);
+              }
+          });
+      };
+      let tenantId = parseInt(odataUri.query.tenantId || '0', 10);
+  
+      let readStream = fs.createReadStream(fileName);
+  
+      pmongo.schema.importCollectionFromStream(dbUri, schema, readStream, opts, tenantId).then(function() {
+          afterImport(null);
+      }).catch(function(error) {
+          afterImport(error);
+      })
+  */
 };
 
 
 export function uploadRoutes(app: express.Express, config, authHandler): void {
+
     let uploadCfg = config.upload || {};
     uploadCfg = Object.assign({ dest: './uploads/', fileField: 'file' }, uploadCfg);
     let upload = multer({ dest: uploadCfg.dest });
@@ -117,10 +120,12 @@ export function uploadRoutes(app: express.Express, config, authHandler): void {
         let odataUri = parseOdataUri(req.url, "POST");
         let cb = checkModel(odataUri, true, res, next);
         if (cb) {
-            cb = checkBinaryProp(cb, odataUri, res, next);
+            cb = _checkBinaryProp(cb, odataUri, res, next);
             if (cb) _doUploadBinaryProperty(app, odataUri, cb.model, cb.schema, req, res);
         }
     });
+      
+    /*
     app.post('/upload/:application/:entity', upload.single(uploadCfg.fileField), function(req, res, next) {
         let odataUri = parseOdataUri(req.url, "POST");
         let cb = checkModel(odataUri, false, res, next);
@@ -128,15 +133,15 @@ export function uploadRoutes(app: express.Express, config, authHandler): void {
             _doImport(app, odataUri, cb.model, cb.schema, req, res);
         }
     });
-
+*/
     app.get('/odata/:application/:entity/:binaryProperty', function(req, res, next) {
         let odataUri = parseOdataUri(req.url, "GET");
         let cb = checkModel(odataUri, true, res, next);
         if (cb) {
-            cb = checkBinaryProp(cb, odataUri, res, next);
+            cb = _checkBinaryProp(cb, odataUri, res, next);
             if (cb) {
-                pmongo.upload.downloadBinaryProperty(pmongo.db.connectionString(cb.model.settings.storage.connect),
-                    cb.schema, entityId2MongoFilter(odataUri, cb.schema), odataUri.propertyName, res, function(error) {
+                pmongo.upload.downloadBinaryProperty(cb.model.settings.storage.connect, cb.model.connections,
+                    cb.schema, odataUri, res, function(error) {
                         if (error)
                             putils.http.exception(res, error);
                     });
@@ -144,5 +149,6 @@ export function uploadRoutes(app: express.Express, config, authHandler): void {
             }
         }
     });
+
 }
 

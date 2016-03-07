@@ -6,6 +6,7 @@ import {utils}  from 'phoenix-utils';
 
 export class ModelManager {
     public settings: any;
+    public connections: any;
     private _model: any;
     private _schemas: any;
     public applicationName: string;
@@ -23,11 +24,13 @@ export class ModelManager {
     }
     constructor(applicationName: string, config: any) {
         this.settings = config;
+        this.connections = {};
         this.applicationName = applicationName;
     }
     public destroy() {
         this._model = null;
         this.settings = null;
+        this.connections = null;
     }
     private _loaded() {
         let that = this;
@@ -44,7 +47,7 @@ export class ModelManager {
         let res = [];
         Object.keys(that._model.entities).forEach(entityName => {
            let schema = that._schemas[entityName];
-           res.push({entityName: entityName, title: schema.title, multiTenant: schema.multiTenant === true});   
+           res.push({entityName: entityName, title: schema.title, multiTenant: schema.multiTenant});   
         });
         return res;
         

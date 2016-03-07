@@ -1,18 +1,7 @@
 "use strict";
+import * as podata from 'phoenix-odata';
 
 //excepted: /odata/{application}/entity?tenantId=value
-export interface OdataParsedUri {
-    error?: {
-        message: string,
-        status: number
-    },
-    query: any,
-    entity?: string,
-    propertyName?: string,
-    entityId?: any,
-    method: string,
-    application: string
-}
 
 
 function _extractEntityIdValue(entityId: string): { value: string, isString: boolean } {
@@ -27,7 +16,7 @@ function _extractEntityIdValue(entityId: string): { value: string, isString: boo
     return { value: entityId, isString: false };
 }
 
-function _checkEntityId(oUri: OdataParsedUri): void {
+function _checkEntityId(oUri: podata.OdataParsedUri): void {
     try {
         let eid = _extractEntityIdValue(oUri.entityId);
         if (eid.isString) {
@@ -56,7 +45,7 @@ function _checkEntityId(oUri: OdataParsedUri): void {
 
 }
 
-function _parseEntityId(oUri: OdataParsedUri): void {
+function _parseEntityId(oUri: podata.OdataParsedUri): void {
     let ii = oUri.entity.indexOf('(');
     if (ii > 0) {
         if (oUri.entity[oUri.entity.length - 1] != ')') {
@@ -70,7 +59,7 @@ function _parseEntityId(oUri: OdataParsedUri): void {
 }
 
 
-export function parseOdataUri(url: string, method: string): OdataParsedUri {
+export function parseOdataUri(url: string, method: string): podata.OdataParsedUri {
     const
         invalidUrl = 'Invalid odata url, excepted: "/odata/{application}/{entity}"',
         invalidUrlAppMissing = 'Invalid odata url, application is missing.',
@@ -143,28 +132,3 @@ export function parseOdataUri(url: string, method: string): OdataParsedUri {
 }
 
 
-
-/*
-
-  if (!res.entityId && res.query && res.query.$aggregation) {
-        var funcs = res.query.$aggregation.split(",");
-        funcs.forEach(function(item) {
-            var vv = item.trim();
-            var cc = vv.split(" ");
-            if (cc.length < 3 || (cc[cc.length - 2] != 'as')) {
-                res.errorMessage = "Invalid aggregation Id.";
-                res.status = 400;
-                return res;
-            }
-            res.aggregation = res.aggregation || {};
-            var alias = cc[cc.length - 1];
-            cc.pop();
-            cc.pop();
-            res.aggregation[alias] = cc.join('');
-        });
-        if (res.query.$groupby) {
-            res.groups = res.query.$groupby.split(",");
-        }
-
-    }
-   */

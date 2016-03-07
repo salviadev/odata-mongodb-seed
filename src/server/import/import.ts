@@ -67,12 +67,10 @@ async function initializeDatabase(): Promise<void> {
         throw util.format('Application not found: "%s". Check config.json file.', applicationName);
     if (!app.settings.storage || !app.settings.storage.connect)
         throw util.format('Invalid database config for "%s". Check config.json file.', applicationName);
-    let cs = pmongo.db.connectionString(app.settings.storage.connect);
-
     let schemas = app.schemas();
-    await pmongo.schema.createCollections(cs, schemas);
+    await pmongo.schema.createCollections(app.settings.storage.connect, schemas);
     let files = await dataFiles(schemas, dataPath);
-    await importFiles(cs, files,
+    await importFiles(app.settings.storage.connect, files,
         {
             truncate: true,
             onImported: function(schema, lc) {

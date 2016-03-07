@@ -1,10 +1,11 @@
 "use strict";
-var path = require('path');
-var disk_storage_1 = require('./disk-storage');
-var phoenix_utils_1 = require('phoenix-utils');
+const path = require('path');
+const disk_storage_1 = require('./disk-storage');
+const phoenix_utils_1 = require('phoenix-utils');
 class ModelManager {
     constructor(applicationName, config) {
         this.settings = config;
+        this.connections = {};
         this.applicationName = applicationName;
     }
     load(rootPath) {
@@ -22,6 +23,7 @@ class ModelManager {
     destroy() {
         this._model = null;
         this.settings = null;
+        this.connections = null;
     }
     _loaded() {
         let that = this;
@@ -38,7 +40,7 @@ class ModelManager {
         let res = [];
         Object.keys(that._model.entities).forEach(entityName => {
             let schema = that._schemas[entityName];
-            res.push({ entityName: entityName, title: schema.title, multiTenant: schema.multiTenant === true });
+            res.push({ entityName: entityName, title: schema.title, multiTenant: schema.multiTenant });
         });
         return res;
     }

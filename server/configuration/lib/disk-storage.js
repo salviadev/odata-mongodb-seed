@@ -1,6 +1,6 @@
 "use strict";
-var fs = require('fs');
-var path = require('path');
+const fs = require('fs');
+const path = require('path');
 function _modelList(folderName) {
     return new Promise((resolve, reject) => {
         fs.readdir(folderName, function (err, items) {

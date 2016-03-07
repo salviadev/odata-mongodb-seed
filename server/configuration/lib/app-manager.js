@@ -1,7 +1,7 @@
 "use strict";
-var path = require('path');
-var phoenix_utils_1 = require('phoenix-utils');
-var model_manager_1 = require('./model-manager');
+const path = require('path');
+const phoenix_utils_1 = require('phoenix-utils');
+const model_manager_1 = require('./model-manager');
 class ApplicationManager {
     constructor(config) {
         this._config = config.odata;

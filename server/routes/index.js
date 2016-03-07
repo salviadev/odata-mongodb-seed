@@ -1,19 +1,6 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, Promise, generator) {
-    return new Promise(function (resolve, reject) {
-        generator = generator.call(thisArg, _arguments);
-        function cast(value) { return value instanceof Promise && value.constructor === Promise ? value : new Promise(function (resolve) { resolve(value); }); }
-        function onfulfill(value) { try { step("next", value); } catch (e) { reject(e); } }
-        function onreject(value) { try { step("throw", value); } catch (e) { reject(e); } }
-        function step(verb, value) {
-            var result = generator[verb](value);
-            result.done ? resolve(result.value) : cast(result.value).then(onfulfill, onreject);
-        }
-        step("next", void 0);
-    });
-};
-var odata_routes_1 = require("./odata/odata-routes");
-var odata_import_routes_1 = require("./odata/odata-import-routes");
+const odata_routes_1 = require("./odata/odata-routes");
+const odata_import_routes_1 = require("./odata/odata-import-routes");
 function routes(app, config, authHandler) {
     odata_import_routes_1.uploadRoutes(app, config, authHandler);
     odata_routes_1.odataRoutes(app, config, authHandler);

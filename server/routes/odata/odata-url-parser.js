@@ -1,4 +1,5 @@
 "use strict";
+//excepted: /odata/{application}/entity?tenantId=value
 function _extractEntityIdValue(entityId) {
     if (entityId === '') {
         throw "entityId is empty.";
@@ -114,27 +115,3 @@ function parseOdataUri(url, method) {
     return res;
 }
 exports.parseOdataUri = parseOdataUri;
-/*
-
-  if (!res.entityId && res.query && res.query.$aggregation) {
-        var funcs = res.query.$aggregation.split(",");
-        funcs.forEach(function(item) {
-            var vv = item.trim();
-            var cc = vv.split(" ");
-            if (cc.length < 3 || (cc[cc.length - 2] != 'as')) {
-                res.errorMessage = "Invalid aggregation Id.";
-                res.status = 400;
-                return res;
-            }
-            res.aggregation = res.aggregation || {};
-            var alias = cc[cc.length - 1];
-            cc.pop();
-            cc.pop();
-            res.aggregation[alias] = cc.join('');
-        });
-        if (res.query.$groupby) {
-            res.groups = res.query.$groupby.split(",");
-        }
-
-    }
-   */ 

@@ -1,22 +1,17 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, Promise, generator) {
-    return new Promise(function (resolve, reject) {
-        generator = generator.call(thisArg, _arguments);
-        function cast(value) { return value instanceof Promise && value.constructor === Promise ? value : new Promise(function (resolve) { resolve(value); }); }
-        function onfulfill(value) { try { step("next", value); } catch (e) { reject(e); } }
-        function onreject(value) { try { step("throw", value); } catch (e) { reject(e); } }
-        function step(verb, value) {
-            var result = generator[verb](value);
-            result.done ? resolve(result.value) : cast(result.value).then(onfulfill, onreject);
-        }
-        step("next", void 0);
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator.throw(value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments)).next());
     });
 };
-var path = require('path');
-var util = require('util');
-var pmongo = require('phoenix-mongodb');
-var putils = require('phoenix-utils');
-var index_1 = require("../configuration/index");
+const path = require('path');
+const util = require('util');
+const pmongo = require('phoenix-mongodb');
+const putils = require('phoenix-utils');
+const index_1 = require("../configuration/index");
 function dataFiles(schemas, dataPath) {
     let promises = [];
     for (let schema of schemas) {
@@ -67,11 +62,10 @@ function initializeDatabase() {
             throw util.format('Application not found: "%s". Check config.json file.', applicationName);
         if (!app.settings.storage || !app.settings.storage.connect)
             throw util.format('Invalid database config for "%s". Check config.json file.', applicationName);
-        let cs = pmongo.db.connectionString(app.settings.storage.connect);
         let schemas = app.schemas();
-        yield pmongo.schema.createCollections(cs, schemas);
+        yield pmongo.schema.createCollections(app.settings.storage.connect, schemas);
         let files = yield dataFiles(schemas, dataPath);
-        yield importFiles(cs, files, {
+        yield importFiles(app.settings.storage.connect, files, {
             truncate: true,
             onImported: function (schema, lc) {
                 console.log(util.format("%s - %d documents inserted.", schema.name, lc));
