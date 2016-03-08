@@ -4,12 +4,11 @@ const phoenix_utils_1 = require('phoenix-utils');
 const podata = require('phoenix-odata');
 const odataget = require('./odata-get');
 const odata_messages_1 = require('./odata-messages');
-const odata_url_parser_1 = require('./odata-url-parser');
 const index_1 = require('../../configuration/index');
 function odataRoutes(app, config, authHandler) {
     app.get('/odata/*', function (req, res, next) {
         // Parse url 
-        let odataUri = odata_url_parser_1.parseOdataUri(req.url, "GET");
+        let odataUri = podata.parseOdataUri(req.url, "GET");
         if (odataUri.error) {
             phoenix_utils_1.http.error(res, odataUri.error.message, odataUri.error.status);
             return;

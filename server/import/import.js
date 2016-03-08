@@ -32,10 +32,10 @@ function dataFiles(schemas, dataPath) {
         });
     });
 }
-function importFiles(connectionUri, files, options, tenantId) {
+function importFiles(settings, connections, files, options, tenantId) {
     let promises = [];
     for (let file of files) {
-        promises.push(pmongo.schema.importCollectionFromFile(connectionUri, file.schema, file.fileName, options, tenantId));
+        promises.push(pmongo.schema.importCollectionFromFile(settings, connections, file.schema, file.fileName, options, tenantId));
     }
     return Promise.all(promises);
 }
@@ -65,7 +65,7 @@ function initializeDatabase() {
         let schemas = app.schemas();
         yield pmongo.schema.createCollections(app.settings.storage.connect, schemas);
         let files = yield dataFiles(schemas, dataPath);
-        yield importFiles(app.settings.storage.connect, files, {
+        yield importFiles(app.settings.storage.connect, app.connections, files, {
             truncate: true,
             onImported: function (schema, lc) {
                 console.log(util.format("%s - %d documents inserted.", schema.name, lc));

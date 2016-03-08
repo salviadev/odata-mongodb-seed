@@ -34,10 +34,10 @@ function dataFiles(schemas: any[], dataPath: string): Promise<any[]> {
 
 }
 
-function importFiles(connectionUri: string, files: any[], options: any, tenantId?: number): Promise<any[]> {
+function importFiles(settings: any, connections: any, files: any[], options: any, tenantId?: number): Promise<any[]> {
     let promises = [];
     for (let file of files) {
-        promises.push(pmongo.schema.importCollectionFromFile(connectionUri, file.schema, file.fileName, options, tenantId));
+        promises.push(pmongo.schema.importCollectionFromFile(settings, connections, file.schema, file.fileName, options, tenantId));
     }
 
     return Promise.all(promises);
@@ -70,7 +70,7 @@ async function initializeDatabase(): Promise<void> {
     let schemas = app.schemas();
     await pmongo.schema.createCollections(app.settings.storage.connect, schemas);
     let files = await dataFiles(schemas, dataPath);
-    await importFiles(app.settings.storage.connect, files,
+    await importFiles(app.settings.storage.connect, app.connections, files,
         {
             truncate: true,
             onImported: function(schema, lc) {

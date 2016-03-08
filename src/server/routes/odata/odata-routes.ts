@@ -8,7 +8,6 @@ import * as podata  from 'phoenix-odata';
 import * as odataget from './odata-get';
 import {odataRouting} from './odata-messages';
 
-import {parseOdataUri}  from './odata-url-parser';
 import {applicationManager}  from '../../configuration/index';
 
 
@@ -16,7 +15,7 @@ import {applicationManager}  from '../../configuration/index';
 export function odataRoutes(app: express.Express, config, authHandler): void {
     app.get('/odata/*', function(req, res, next) {
         // Parse url 
-        let odataUri = parseOdataUri(req.url, "GET");
+        let odataUri = podata.parseOdataUri(req.url, "GET");
         if (odataUri.error) {
             http.error(res, odataUri.error.message, odataUri.error.status);
             return;

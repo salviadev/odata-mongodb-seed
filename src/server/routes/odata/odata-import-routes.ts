@@ -10,7 +10,6 @@ import * as pmongo  from 'phoenix-mongodb';
 import * as podata  from 'phoenix-odata';
 
 import {odataRouting} from './odata-messages';
-import {parseOdataUri}  from './odata-url-parser';
 import {applicationManager, ApplicationManager, ModelManager}  from '../../configuration/index';
 
 
@@ -61,26 +60,23 @@ function _checkBinaryProp(param: any, odataUri: podata.OdataParsedUri, res: expr
 }
 
 function _doUploadBinaryProperty(app: express.Express, odataUri: podata.OdataParsedUri, model: ModelManager, schema: any, req: express.Request, res: express.Response): void {
-    /*
-       let fileName = path.join(req.file.destination, req.file.filename);
-       pmongo.upload.uploadBinaryProperty(pmongo.db.connectionString(model.settings.storage.connect),
-           schema, entityId2MongoFilter(odataUri, schema), odataUri.propertyName, req.file.originalname, req.file.mimetype, fs.createReadStream(fileName), function(error) {
-               fs.unlink(fileName, function(err) {
-                   if (error) {
-                       putils.http.exception(res, error);
-                   } else {
-                       res.sendStatus(201);
-                   }
-               });
-           });
-   */
+    let fileName = path.join(req.file.destination, req.file.filename);
+    pmongo.upload.uploadBinaryProperty(model.settings.storage.connect, model.connections, 
+        schema, odataUri, req.file.originalname, req.file.mimetype, fs.createReadStream(fileName), function(error) {
+            fs.unlink(fileName, function(err) {
+                if (error) {
+                    putils.http.exception(res, error);
+                } else {
+                    res.sendStatus(201);
+                }
+            });
+        });
+
 };
 
 function _doImport(app: express.Express, odataUri: podata.OdataParsedUri, model: ModelManager, schema: any, req: express.Request, res: express.Response): void {
-    /*
       let fileName = path.join(req.file.destination, req.file.filename);
       let success = '';
-      let dbUri = pmongo.db.connectionString(model.settings.storage.connect);
       let opts = {
           truncate: odataUri.query.truncate && odataUri.query.truncate !== 'false',
           onImported: function(cs, count) {
@@ -102,12 +98,11 @@ function _doImport(app: express.Express, odataUri: podata.OdataParsedUri, model:
   
       let readStream = fs.createReadStream(fileName);
   
-      pmongo.schema.importCollectionFromStream(dbUri, schema, readStream, opts, tenantId).then(function() {
+      pmongo.schema.importCollectionFromStream(model.settings.storage.connect, model.connections, schema, readStream, opts, tenantId).then(function() {
           afterImport(null);
       }).catch(function(error) {
           afterImport(error);
       })
-  */
 };
 
 
@@ -117,25 +112,22 @@ export function uploadRoutes(app: express.Express, config, authHandler): void {
     uploadCfg = Object.assign({ dest: './uploads/', fileField: 'file' }, uploadCfg);
     let upload = multer({ dest: uploadCfg.dest });
     app.post('/odata/:application/:entity/:binaryProperty', upload.single(uploadCfg.fileField), function(req, res, next) {
-        let odataUri = parseOdataUri(req.url, "POST");
+        let odataUri = podata.parseOdataUri(req.url, "POST");
         let cb = checkModel(odataUri, true, res, next);
         if (cb) {
             cb = _checkBinaryProp(cb, odataUri, res, next);
             if (cb) _doUploadBinaryProperty(app, odataUri, cb.model, cb.schema, req, res);
         }
     });
-      
-    /*
-    app.post('/upload/:application/:entity', upload.single(uploadCfg.fileField), function(req, res, next) {
-        let odataUri = parseOdataUri(req.url, "POST");
+   app.post('/upload/:application/:entity', upload.single(uploadCfg.fileField), function(req, res, next) {
+        let odataUri = podata.parseOdataUri(req.url, "POST");
         let cb = checkModel(odataUri, false, res, next);
         if (cb) {
             _doImport(app, odataUri, cb.model, cb.schema, req, res);
         }
     });
-*/
     app.get('/odata/:application/:entity/:binaryProperty', function(req, res, next) {
-        let odataUri = parseOdataUri(req.url, "GET");
+        let odataUri = podata.parseOdataUri(req.url, "GET");
         let cb = checkModel(odataUri, true, res, next);
         if (cb) {
             cb = _checkBinaryProp(cb, odataUri, res, next);
