@@ -52,14 +52,14 @@ function _checkBinaryProp(param, odataUri, res, next) {
 }
 function _doUploadBinaryProperty(app, odataUri, model, schema, req, res) {
     let fileName = path.join(req.file.destination, req.file.filename);
-    pmongo.upload.uploadBinaryProperty(model.settings.storage.connect, model.connections, schema, odataUri, req.file.originalname, req.file.mimetype, fs.createReadStream(fileName), function (error) {
+    pmongo.upload.uploadBinaryProperty(model.settings.storage.connect, model.connections, schema, odataUri, req.file.originalname, req.file.mimetype, fs.createReadStream(fileName))
+        .then(function () {
         fs.unlink(fileName, function (err) {
-            if (error) {
-                putils.http.exception(res, error);
-            }
-            else {
-                res.sendStatus(201);
-            }
+            res.sendStatus(201);
+        });
+    }).catch(function (error) {
+        fs.unlink(fileName, function (err) {
+            putils.http.exception(res, error);
         });
     });
 }
@@ -119,9 +119,10 @@ function uploadRoutes(app, config, authHandler) {
         if (cb) {
             cb = _checkBinaryProp(cb, odataUri, res, next);
             if (cb) {
-                pmongo.upload.downloadBinaryProperty(cb.model.settings.storage.connect, cb.model.connections, cb.schema, odataUri, res, function (error) {
-                    if (error)
-                        putils.http.exception(res, error);
+                pmongo.upload.downloadBinaryProperty(cb.model.settings.storage.connect, cb.model.connections, cb.schema, odataUri, res)
+                    .then(function () { })
+                    .catch(function (error) {
+                    putils.http.exception(res, error);
                 });
             }
         }
