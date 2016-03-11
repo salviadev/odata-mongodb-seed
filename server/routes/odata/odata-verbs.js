@@ -8,17 +8,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 const pmongo = require('phoenix-mongodb');
-function get(model, odataUri, res) {
+function doGet(model, odataUri) {
     return __awaiter(this, void 0, Promise, function* () {
         let schema = model.entitySchema(odataUri.entity);
         if (!odataUri.entityId) {
-            let docs = yield pmongo.odata.execQuery(model.settings.storage.connect, model.connections, schema, odataUri);
-            res.status(200).json(docs);
+            return pmongo.odata.execQuery(model.settings.storage.connect, model.connections, schema, odataUri);
         }
         else {
-            let item = yield pmongo.odata.execQueryId(model.settings.storage.connect, model.connections, schema, odataUri);
-            res.status(200).json(item);
+            return pmongo.odata.execQueryId(model.settings.storage.connect, model.connections, schema, odataUri);
         }
     });
 }
-exports.get = get;
+exports.doGet = doGet;
+function doDelete(model, odataUri) {
+    let schema = model.entitySchema(odataUri.entity);
+    return pmongo.odata.execDelete(model.settings.storage.connect, model.connections, schema, odataUri);
+}
+exports.doDelete = doDelete;

@@ -2,11 +2,11 @@
 const util = require('util');
 const phoenix_utils_1 = require('phoenix-utils');
 const podata = require('phoenix-odata');
-const odataget = require('./odata-get');
+const odata = require('./odata-verbs');
 const odata_messages_1 = require('./odata-messages');
 const index_1 = require('../../configuration/index');
-function parseRequestWithId(method, req, res) {
-    let odataUri = podata.parseOdataUri(req.url, "DELETE");
+function parseRequestWithId(method, url, res) {
+    let odataUri = podata.parseOdataUri(url, "DELETE");
     if (odataUri.error) {
         phoenix_utils_1.http.error(res, odataUri.error.message, odataUri.error.status);
         return null;
@@ -30,9 +30,15 @@ function parseRequestWithId(method, req, res) {
 }
 function odataRoutes(app, config, authHandler) {
     app.delete('/upload/:application/entity', function (req, res, next) {
-        let opts = parseRequestWithId("DELETE", req, res);
+        let opts = parseRequestWithId("DELETE", req.url, res);
         if (!opts)
             return;
+        odata.doDelete(opts.model, opts.odataUri).then(function () {
+            res.sendStatus(200);
+        }).catch(function (ex) {
+            console.log(ex);
+            phoenix_utils_1.http.exception(res, ex);
+        });
     });
     app.get('/odata/*', function (req, res, next) {
         // Parse url 
@@ -66,7 +72,8 @@ function odataRoutes(app, config, authHandler) {
                     phoenix_utils_1.http.error(res, util.format(odata_messages_1.odataRouting.tenantIdmandatory, odataUri.application, odataUri.entity));
                     return;
                 }
-                odataget.get(model, odataUri, res).then(function () {
+                odata.doGet(model, odataUri).then(function (data) {
+                    res.status(200).json(data);
                 }).catch(function (ex) {
                     console.log(ex);
                     phoenix_utils_1.http.exception(res, ex);

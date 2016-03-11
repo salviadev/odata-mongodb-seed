@@ -63,7 +63,7 @@ function initializeDatabase() {
         if (!app.settings.storage || !app.settings.storage.connect)
             throw util.format('Invalid database config for "%s". Check config.json file.', applicationName);
         let schemas = app.schemas();
-        yield pmongo.schema.createCollections(app.settings.storage.connect, schemas);
+        yield pmongo.schema.createCollections(app.settings.storage.connect, app.connections, schemas);
         let files = yield dataFiles(schemas, dataPath);
         yield importFiles(app.settings.storage.connect, app.connections, files, {
             truncate: true,
@@ -75,6 +75,8 @@ function initializeDatabase() {
 }
 initializeDatabase().then(function () {
     console.log("Success");
+    process.exit(0);
 }).catch(function (ex) {
     console.error(ex);
+    process.exit(-1);
 });

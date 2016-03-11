@@ -68,7 +68,8 @@ async function initializeDatabase(): Promise<void> {
     if (!app.settings.storage || !app.settings.storage.connect)
         throw util.format('Invalid database config for "%s". Check config.json file.', applicationName);
     let schemas = app.schemas();
-    await pmongo.schema.createCollections(app.settings.storage.connect, schemas);
+    await pmongo.schema.createCollections(app.settings.storage.connect, app.connections, schemas);
+
     let files = await dataFiles(schemas, dataPath);
     await importFiles(app.settings.storage.connect, app.connections, files,
         {
@@ -83,6 +84,8 @@ async function initializeDatabase(): Promise<void> {
 
 initializeDatabase().then(function() {
     console.log("Success");
+    process.exit(0);
 }).catch(function(ex) {
     console.error(ex);
+    process.exit(-1);
 });

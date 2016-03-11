@@ -5,13 +5,13 @@ import * as  express  from 'express';
 import * as  util  from 'util';
 import {http}  from 'phoenix-utils';
 import * as podata  from 'phoenix-odata';
-import * as odataget from './odata-get';
+import * as odata from './odata-verbs';
 import {odataRouting} from './odata-messages';
 
 import {applicationManager}  from '../../configuration/index';
 
-function parseRequestWithId(method: string, req: express.Request,  res: express.Response): { model: any, odataUri: podata.OdataParsedUri } {
-    let odataUri = podata.parseOdataUri(req.url, "DELETE");
+function parseRequestWithId(method: string, url: string, res: express.Response): { model: any, odataUri: podata.OdataParsedUri } {
+    let odataUri = podata.parseOdataUri(url, "DELETE");
     if (odataUri.error) {
         http.error(res, odataUri.error.message, odataUri.error.status);
         return null;
@@ -31,14 +31,22 @@ function parseRequestWithId(method: string, req: express.Request,  res: express.
         http.error(res, util.format(odataRouting.tenantIdmandatory, odataUri.application, odataUri.entity));
         return null;
     }
-    return {model: model, odataUri: odataUri};
+    return { model: model, odataUri: odataUri };
 }
 
 export function odataRoutes(app: express.Express, config, authHandler): void {
     app.delete('/upload/:application/entity', function(req, res, next) {
-        let opts = parseRequestWithId("DELETE", req, res);
+        let opts = parseRequestWithId("DELETE", req.url, res);
         if (!opts) return;
-        
+        odata.doDelete(opts.model, opts.odataUri).then(function() {
+            res.sendStatus(200);
+        }).catch(function(ex) {
+
+            console.log(ex);
+            http.exception(res, ex);
+
+        });
+
     });
     app.get('/odata/*', function(req, res, next) {
         // Parse url 
@@ -72,8 +80,8 @@ export function odataRoutes(app: express.Express, config, authHandler): void {
                     return;
                 }
 
-                odataget.get(model, odataUri, res).then(function() {
-
+                odata.doGet(model, odataUri).then(function(data) {
+                     res.status(200).json(data);
                 }).catch(function(ex) {
 
                     console.log(ex);
