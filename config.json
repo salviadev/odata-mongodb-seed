@@ -18,10 +18,15 @@
                         "user": "salvia",
                         "password": "salvia"
                     },
-                    "connect": {
+                    "connect2": {
                         "port": 55875,
                         "host": "ds055875.mongolab.com",
                         "database": "mihai",
+                        "user": "salvia",
+                        "password": "salvia"
+                    }, 
+                    "connect": {
+                        "database": "salvia",
                         "user": "salvia",
                         "password": "salvia"
                     }

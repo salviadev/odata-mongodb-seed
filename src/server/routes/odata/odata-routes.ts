@@ -35,7 +35,7 @@ function parseRequestWithId(method: string, url: string, res: express.Response):
 }
 
 export function odataRoutes(app: express.Express, config, authHandler): void {
-    app.delete('/upload/:application/entity', function(req, res, next) {
+    app.delete('/:application/upload/entity', function(req, res, next) {
         let opts = parseRequestWithId("DELETE", req.url, res);
         if (!opts) return;
         odata.doDelete(opts.model, opts.odataUri).then(function() {
@@ -48,7 +48,7 @@ export function odataRoutes(app: express.Express, config, authHandler): void {
         });
 
     });
-    app.get('/odata/*', function(req, res, next) {
+    app.get('/:application/odata/*', function(req, res, next) {
         // Parse url 
         let odataUri = podata.parseOdataUri(req.url, "GET");
         if (odataUri.error) {

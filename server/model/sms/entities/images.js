@@ -10,12 +10,15 @@ exports.model = {
             }],
         "properties": {
             "img": {
+                "title": "Url",
                 "type": "string"
             },
             "idop": {
+                "title": "Id opération",
                 "type": "string"
             },
             "titre": {
+                "title": "Titre",
                 "type": "string"
             },
             "photo": {

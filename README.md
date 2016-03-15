@@ -148,7 +148,7 @@ $ curl -v -F file=@SPO_COMMUNE.json -X POST "http://localhost:3000/upload/sms/SP
 ## Format
 
 ```
-$ curl -v -F file=@SPO_COMMUNE.json -X POST "http://localhost:3000/upload/sms/SPO_COMMUNE?truncate=false&format=csv"
+$ curl -v -F file=@SPO_COMMUNE.csv -X POST "http://localhost:3000/upload/sms/SPO_COMMUNE?truncate=false&format=csv"
 ```
 Default `format=json`.
 

@@ -10,10 +10,10 @@ import {applicationManager} from "../configuration/index";
 
 
 
-function dataFiles(schemas: any[], dataPath: string): Promise<any[]> {
+function dataFiles(schemas: any[], dataPath: string, isCsv: boolean): Promise<any[]> {
     let promises = [];
     for (let schema of schemas) {
-        let fn = path.join(dataPath, schema.name + '.json');
+        let fn = path.join(dataPath, schema.name + (isCsv ? '.csv': '.json'));
         promises.push(putils.fs.stat(fn, false));
     }
 
@@ -22,7 +22,7 @@ function dataFiles(schemas: any[], dataPath: string): Promise<any[]> {
             let res = [];
             files.forEach(function(stats: fs.Stats, index) {
                 if (stats && stats.isFile()) {
-                    res.push({ schema: schemas[index], fileName: path.join(dataPath, schemas[index].name + '.json') })
+                    res.push({ schema: schemas[index], fileName: path.join(dataPath, schemas[index].name +  '.json') })
                 }
             });
             resolve(res);
@@ -45,7 +45,7 @@ function importFiles(settings: any, connections: any, files: any[], options: any
 
 
 
-async function initializeDatabase(): Promise<void> {
+async function initializeDatabase(isCsv: boolean): Promise<void> {
     if (process.argv.length !== 4) {
         throw util.format('Use node %s applicatioName path_to_data', 'import');
     }
@@ -70,7 +70,7 @@ async function initializeDatabase(): Promise<void> {
     let schemas = app.schemas();
     await pmongo.schema.createCollections(app.settings.storage.connect, app.connections, schemas);
 
-    let files = await dataFiles(schemas, dataPath);
+    let files = await dataFiles(schemas, dataPath, isCsv);
     await importFiles(app.settings.storage.connect, app.connections, files,
         {
             truncate: true,
@@ -82,7 +82,7 @@ async function initializeDatabase(): Promise<void> {
 }
 
 
-initializeDatabase().then(function() {
+initializeDatabase(false).then(function() {
     console.log("Success");
     process.exit(0);
 }).catch(function(ex) {

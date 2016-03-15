@@ -12,17 +12,19 @@ const util = require('util');
 const pmongo = require('phoenix-mongodb');
 const putils = require('phoenix-utils');
 const index_1 = require("../configuration/index");
-function dataFiles(schemas, dataPath) {
+function dataFiles(schemas, dataPath, isCsv) {
     let promises = [];
     for (let schema of schemas) {
-        let fn = path.join(dataPath, schema.name + '.json');
+        let fn = path.join(dataPath, schema.name + (isCsv ? '.csv' : '.json'));
         promises.push(putils.fs.stat(fn, false));
+        console.log(fn);
     }
     return new Promise((resolve, reject) => {
         Promise.all(promises).then(function (files) {
             let res = [];
             files.forEach(function (stats, index) {
                 if (stats && stats.isFile()) {
+                    console.log(stats);
                     res.push({ schema: schemas[index], fileName: path.join(dataPath, schemas[index].name + '.json') });
                 }
             });
@@ -39,7 +41,7 @@ function importFiles(settings, connections, files, options, tenantId) {
     }
     return Promise.all(promises);
 }
-function initializeDatabase() {
+function initializeDatabase(isCsv) {
     return __awaiter(this, void 0, Promise, function* () {
         if (process.argv.length !== 4) {
             throw util.format('Use node %s applicatioName path_to_data', 'import');
@@ -64,7 +66,7 @@ function initializeDatabase() {
             throw util.format('Invalid database config for "%s". Check config.json file.', applicationName);
         let schemas = app.schemas();
         yield pmongo.schema.createCollections(app.settings.storage.connect, app.connections, schemas);
-        let files = yield dataFiles(schemas, dataPath);
+        let files = yield dataFiles(schemas, dataPath, isCsv);
         yield importFiles(app.settings.storage.connect, app.connections, files, {
             truncate: true,
             onImported: function (schema, lc) {
@@ -73,7 +75,7 @@ function initializeDatabase() {
         });
     });
 }
-initializeDatabase().then(function () {
+initializeDatabase(false).then(function () {
     console.log("Success");
     process.exit(0);
 }).catch(function (ex) {
